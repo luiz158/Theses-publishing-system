@@ -1,9 +1,6 @@
 package cz.muni.fi.pv243.tps.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 import java.io.Serializable;
 
@@ -20,6 +17,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
     private String password;
