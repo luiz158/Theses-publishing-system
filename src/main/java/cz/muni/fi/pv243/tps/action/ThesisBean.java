@@ -1,7 +1,7 @@
 package cz.muni.fi.pv243.tps.action;
 
 import cz.muni.fi.pv243.tps.domain.Thesis;
-import cz.muni.fi.pv243.tps.ejb.ThesesManager;
+import cz.muni.fi.pv243.tps.ejb.ThesisManager;
 
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
@@ -13,14 +13,14 @@ import java.util.List;
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
 @Named
-public class ThesesBean {
+public class ThesisBean {
     @Inject
-    ThesesManager thesesManager;
+    ThesisManager thesisManager;
 
     @Produces
     @Model
-    List<Thesis> getTheses(){
-        return thesesManager.getTheses();
+    public List<Thesis> getTheses(){
+        return thesisManager.getTheses();
     }
 
 }

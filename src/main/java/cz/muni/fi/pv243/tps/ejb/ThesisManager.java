@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 @Stateless
-public class ThesesManager implements Serializable{
+public class ThesisManager implements Serializable{
 
     @PersistenceContext
     EntityManager em;
@@ -32,10 +32,4 @@ public class ThesesManager implements Serializable{
                 .setParameter("topicId", topicId)
                 .getResultList();
     }
-
-
-
-
-
-
 }
