@@ -9,18 +9,18 @@ import org.jboss.seam.faces.view.config.ViewPattern;
  */
 @ViewConfig
 public interface PagesConfig {
-    static String pagesPrefix = "/WEB-INF/pages/";
+    public static final String PAGES_PREFIX = "/WEB-INF/pages/";
 
     static enum Pages {
-        @ViewPattern(pagesPrefix + "index.xhtml")
+        @ViewPattern(PAGES_PREFIX + "index.xhtml")
         @UrlMapping(pattern = "/")
         INDEX,
 
-        @ViewPattern(pagesPrefix + "not_found.xhtml")
+        @ViewPattern(PAGES_PREFIX + "not_found.xhtml")
         @UrlMapping(pattern = "/404")
         NOT_FOUND,
 
-        @ViewPattern(pagesPrefix + "denied.xhtml")
+        @ViewPattern(PAGES_PREFIX + "denied.xhtml")
         @UrlMapping(pattern = "/403")
         ACCESS_DENIED
     }
