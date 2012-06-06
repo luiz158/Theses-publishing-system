@@ -2,6 +2,8 @@ package cz.muni.fi.pv243.tps.domain;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
+
 import static javax.persistence.GenerationType.*;
 
 /**
@@ -9,7 +11,7 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "application_sequence")
-public class Application {
+public class Application implements Serializable {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "application_sequence")
@@ -17,6 +19,9 @@ public class Application {
 
     @ManyToOne
     private User applicant;
+
+    @ManyToOne
+    private ThesisTopic topic;
 
     public Long getId() {
         return id;
@@ -32,6 +37,14 @@ public class Application {
 
     public void setApplicant(User applicant) {
         this.applicant = applicant;
+    }
+
+    public ThesisTopic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(ThesisTopic topic) {
+        this.topic = topic;
     }
 
     @Override

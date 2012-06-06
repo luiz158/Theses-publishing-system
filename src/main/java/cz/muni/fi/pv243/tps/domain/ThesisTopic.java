@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.domain;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import static javax.persistence.GenerationType.*;
@@ -11,20 +12,14 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "thesis_topic_sequence")
-public class ThesisTopic {
+public class ThesisTopic  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "thesis_topic_sequence")
     private Long id;
 
-    @OneToMany
-    private Collection<Application> applications;
-
     @ManyToOne
     private User supervisor;
-
-    @OneToMany
-    private Collection<Thesis> theses;
 
     public Long getId() {
         return id;
@@ -34,28 +29,12 @@ public class ThesisTopic {
         this.id = id;
     }
 
-    public Collection<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(Collection<Application> applications) {
-        this.applications = applications;
-    }
-
     public User getSupervisor() {
         return supervisor;
     }
 
     public void setSupervisor(User supervisor) {
         this.supervisor = supervisor;
-    }
-
-    public Collection<Thesis> getTheses() {
-        return theses;
-    }
-
-    public void setTheses(Collection<Thesis> theses) {
-        this.theses = theses;
     }
 
     @Override

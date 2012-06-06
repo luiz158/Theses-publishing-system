@@ -2,6 +2,8 @@ package cz.muni.fi.pv243.tps.domain;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
+
 import static javax.persistence.GenerationType.*;
 
 /**
@@ -9,7 +11,7 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "assignment_sequence")
-public class Assignment {
+public class Assignment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "assignment_sequence")

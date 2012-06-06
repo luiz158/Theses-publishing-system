@@ -19,15 +19,21 @@ public class ThesesManager implements Serializable{
     EntityManager em;
 
 
-    Thesis getThesis(long id){
+    public Thesis getThesis(long id){
         return em.find(Thesis.class, id);
     }
 
-    List<Thesis> getThesesByTopicId(long topicId){
+    public List<Thesis> getTheses(){
+        return em.createQuery("SELECT t FROM Thesis t", Thesis.class).getResultList();
+    }
+
+    public List<Thesis> getThesesByTopicId(long topicId){
         return em.createQuery("SELECT t FROM Thesis t WHERE t.topic.id = :topicId", Thesis.class)
                 .setParameter("topicId", topicId)
                 .getResultList();
     }
+
+
 
 
 

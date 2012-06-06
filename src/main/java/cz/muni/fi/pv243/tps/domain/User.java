@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import java.io.Serializable;
+
 import static javax.persistence.GenerationType.*;
 
 /**
@@ -12,7 +14,7 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "user_sequence")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
