@@ -17,18 +17,22 @@ import java.util.List;
 @Stateless
 public class TopicManager {
     @PersistenceContext
-    EntityManager em;
+    EntityManager entityManager;
 
-    public ThesisTopic getTopic(long id){
-        return em.find(ThesisTopic.class, id);
+    public ThesisTopic getTopic(Long id){
+        return entityManager.find(ThesisTopic.class, id);
     }
 
     public List<ThesisTopic> getTopics(){
-           return em.createQuery("SELECT t FROM ThesisTopic t", ThesisTopic.class).getResultList();
+           return entityManager.createQuery("SELECT t FROM ThesisTopic t", ThesisTopic.class).getResultList();
     }
 
     public void createTopic(ThesisTopic topic){
-        em.persist(topic);
+        entityManager.persist(topic);
+    }
+
+    public void editTopic(ThesisTopic topic){
+        entityManager.merge(topic);
     }
 
     public void apply(User user, ThesisTopic topic){
@@ -36,14 +40,14 @@ public class TopicManager {
             Application application = new Application();
             application.setApplicant(user);
             application.setTopic(topic);
-            em.persist(application);
-            em.flush();
+            entityManager.persist(application);
+            entityManager.flush();
         } catch (Exception e){
             throw new InvalidApplicationAttemptException();
         }
     }
 
-    public void apply(long userId, long topicId){
+    public void apply(Long userId, Long topicId){
             User user = new User();
             user.setId(userId);
             ThesisTopic topic = new ThesisTopic();

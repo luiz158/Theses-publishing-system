@@ -33,6 +33,10 @@ public interface PagesConfig {
         @ViewPattern(PAGES_PREFIX + "topics/new.xhtml")
         @UrlMapping(pattern = "/topic/new")
         NEW,
+
+        @ViewPattern(PAGES_PREFIX + "topics/edit.xhtml")
+        @UrlMapping(pattern = "/topic/#{id}/edit")
+        EDIT,
     }
 
     static enum Users {

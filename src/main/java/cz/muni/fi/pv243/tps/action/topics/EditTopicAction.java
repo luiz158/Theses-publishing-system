@@ -5,9 +5,7 @@ import cz.muni.fi.pv243.tps.ejb.TopicManager;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,27 +16,27 @@ import java.io.Serializable;
  */
 @Named
 @ConversationScoped
-public class NewTopicAction implements Serializable{
+public class EditTopicAction implements Serializable {
 
     @Inject
     private TopicManager topicManager;
 
-    private ThesisTopic newTopic;
+    private ThesisTopic editedTopic;
 
     @Begin
-    public void setNewTopic(){
-        newTopic = new ThesisTopic();
+    public void setTopicById(String id){
+        editedTopic = topicManager.getTopic(Long.parseLong(id));
     }
 
     @End
-    public String createTopic(){
-        topicManager.createTopic(newTopic);
+    public String editTopic(){
+        topicManager.editTopic(editedTopic);
         return "topics?faces-redirect=true";
     }
 
     @Produces
     @Named
-    public ThesisTopic newTopic(){
-        return newTopic;
+    public ThesisTopic getEditedTopic(){
+        return editedTopic;
     }
 }

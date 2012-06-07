@@ -16,7 +16,7 @@ import java.util.List;
 @Named
 public class TopicListAction  implements Serializable{
     @Inject
-    TopicManager topicManager;
+    private TopicManager topicManager;
 
     @Produces
     @Model
