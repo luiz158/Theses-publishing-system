@@ -22,6 +22,12 @@ public interface PagesConfig {
 
         @ViewPattern(PAGES_PREFIX + "denied.xhtml")
         @UrlMapping(pattern = "/403")
-        ACCESS_DENIED
+        ACCESS_DENIED,
+    }
+
+    static enum Topics {
+        @ViewPattern(PAGES_PREFIX + "topics/topics.xhtml")
+        @UrlMapping(pattern = "/topics")
+        TOPICS,
     }
 }

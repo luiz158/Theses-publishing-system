@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.action;
+package cz.muni.fi.pv243.tps.action.theses;
 
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.ejb.ThesisManager;
@@ -22,5 +22,4 @@ public class ThesisBean {
     public List<Thesis> getTheses(){
         return thesisManager.getTheses();
     }
-
 }

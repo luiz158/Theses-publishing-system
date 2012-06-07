@@ -4,10 +4,13 @@ import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
+import cz.muni.fi.pv243.tps.ejb.TopicManager;
+import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,6 +23,9 @@ public class Demo {
 
     @PersistenceContext
     EntityManager em;
+
+    @Inject
+    TopicManager topicManager;
 
     @PostConstruct
     public  void initialize(){
@@ -43,6 +49,9 @@ public class Demo {
         // Theses topics
         ThesisTopic topic = new ThesisTopic();
         topic.setSupervisor(spvsr);
+        topic.setCapacity(3);
+        topic.setTitle("Thesis topic 1");
+        topic.setDescription("Some dummy description for testing purpose");
 
         em.persist(topic);
 

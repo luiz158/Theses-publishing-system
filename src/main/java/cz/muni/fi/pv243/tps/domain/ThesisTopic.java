@@ -21,6 +21,13 @@ public class ThesisTopic  implements Serializable {
     @ManyToOne
     private User supervisor;
 
+    private String Title;
+
+    private String Description;
+
+    private int capacity;
+
+
     public Long getId() {
         return id;
     }
@@ -35,6 +42,30 @@ public class ThesisTopic  implements Serializable {
 
     public void setSupervisor(User supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     @Override
