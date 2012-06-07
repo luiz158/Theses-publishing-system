@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.org/seam/faces"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="pageTitle">Theses publishing system - Add thesis topic</ui:define>
+
+    <ui:define name="content">
+        <h2>Add topic</h2>
+
+        <h:messages/>
+
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Title" for="title"/>
+                <h:inputText id="title" value="#{newTopic.title}"/>
+
+                <h:outputLabel value="Supervisor" for="supervisor"/>
+                <h:selectOneMenu id="supervisor" value="#{newTopic.supervisor}">
+                    <s:objectConverter/>
+                    <f:selectItems value="#{supervisors}" var="_supervisor"
+                                   itemValue="#{_supervisor}"
+                                   itemLabel="#{_supervisor.name.firstName} #{_supervisor.name.lastName}"></f:selectItems>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Capacity" for="capacity"/>
+                <h:inputText id="capacity" value="#{newTopic.capacity}"/>
+
+                <h:outputLabel value="Description" for="description"/>
+                <h:inputTextarea id="description" value="#{newTopic.description}"/>
+            </h:panelGrid>
+
+            <h:commandButton action="#{newTopicAction.createTopic}" value="Create topic"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

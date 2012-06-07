@@ -12,7 +12,6 @@ import static javax.persistence.GenerationType.*;
 @Entity
 @SequenceGenerator(name = "user_sequence")
 public class User implements Serializable {
-
     @Id
     @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
     private Long id;
@@ -21,6 +20,8 @@ public class User implements Serializable {
     private String username;
 
     private String password;
+
+    private Name name;
 
     public Long getId() {
         return id;
@@ -46,6 +47,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,4 +71,56 @@ public class User implements Serializable {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    // Inner class for Name representation
+    @Embeddable
+    public static class Name {
+        private String firstName;
+        private String lastName;
+
+        public Name() {
+        }
+
+        public Name(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Name name = (Name) o;
+
+            if (firstName != null ? !firstName.equals(name.firstName) : name.firstName != null) return false;
+            if (lastName != null ? !lastName.equals(name.lastName) : name.lastName != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = firstName != null ? firstName.hashCode() : 0;
+            result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+            return result;
+        }
+    }
+
 }

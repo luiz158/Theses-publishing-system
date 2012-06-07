@@ -5,7 +5,6 @@ import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
-import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -33,14 +32,17 @@ public class Demo {
         User spvsr = new User();
         spvsr.setUsername("supervisor");
         spvsr.setPassword("password");
+        spvsr.setName(new User.Name("Supervisor", "Prvni"));
 
         User student = new User();
         student.setUsername("student");
         student.setPassword("password");
+        student.setName(new User.Name("Studen", "Prvni"));
 
         User student2 = new User();
         student2.setUsername("student2");
         student2.setPassword("password");
+        student2.setName(new User.Name("Student", "Druhy"));
 
         em.persist(spvsr);
         em.persist(student);

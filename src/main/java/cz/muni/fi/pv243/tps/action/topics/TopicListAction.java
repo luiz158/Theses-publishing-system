@@ -7,13 +7,14 @@ import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
 @Named
-public class TopicListAction {
+public class TopicListAction  implements Serializable{
     @Inject
     TopicManager topicManager;
 

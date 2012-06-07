@@ -20,4 +20,10 @@ public class UserAction {
     public List<User> getUsers() {
         return userManager.getUsers();
     }
+
+    @Produces
+    @Model
+    public List<User> getSupervisors() {
+        return getUsers();
+    }
 }

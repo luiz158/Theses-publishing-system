@@ -8,19 +8,22 @@ import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
 @Model
-public class NewTopicAction {
+public class NewTopicAction implements Serializable{
     @Inject
     private TopicManager topicManager;
 
     private ThesisTopic newTopic;
 
-    public void createTopic(){
+    public String createTopic(){
+        System.err.println(newTopic.getSupervisor() == null);
         topicManager.createTopic(newTopic);
+        return "topics?faces-redirect=true";
     }
 
     @PostConstruct
