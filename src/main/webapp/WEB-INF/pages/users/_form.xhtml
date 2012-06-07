@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <h:messages />
+
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Username" for="username"/>
+            <h:inputText id="username" value="#{user.username}" />
+            <h:outputLabel value="Password" for="password" />
+            <h:inputSecret id="password" value="#{user.password}"/>
+            <h:outputLabel value="Repeat Password" for="password" />
+            <h:inputSecret id="passwordRepeat"/>
+
+        </h:panelGrid>
+
+        <h:commandButton action="#{confirmButtonObject[confirmButtonMethod]}" value="#{confirmButtonValue}" />
+    </h:form>
+</ui:composition>

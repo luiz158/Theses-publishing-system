@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="pageTitle">Theses publishing system - Sing up</ui:define>
+
+    <ui:define name="content">
+        <h2>Sign up</h2>
+
+        <ui:decorate template="/WEB-INF/pages/users/_form.xhtml">
+            <ui:param name="confirmButtonObject" value="#{newUserAction}" />
+            <ui:param name="confirmButtonMethod" value="create"/>
+            <ui:param name="confirmButtonValue" value="Sign up"/>
+            <ui:param name="user" value="#{newUser}"/>
+        </ui:decorate>
+    </ui:define>
+</ui:composition>
