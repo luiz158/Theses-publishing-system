@@ -4,30 +4,29 @@ import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @Named
 @RequestScoped
-public class NewUserAction implements Serializable  {
+public class ShowUserAction {
     @Inject
     private UserManager userManager;
 
-    private User newUser = new User();
+    private User user;
 
-    public String create() {
-        userManager.createUser(newUser);
-        return "users?faces-redirect=true";
+    public void setUserById(String id) {
+        user = userManager.getUser(Long.parseLong(id));
     }
 
     @Produces
     @Named
-    public User getNewUser() {
-        return newUser;
+    public User getUser() {
+        return user;
     }
 }

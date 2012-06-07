@@ -21,24 +21,24 @@ import java.io.Serializable;
 public class EditUserAction implements Serializable {
 
     @Inject
-    UserManager userManager;
+    private UserManager userManager;
 
-    private User newUser;
+    private User editedUser;
 
     @Begin
     public void setUserById(String id) {
-        newUser = userManager.findUser(Long.parseLong(id));
+        editedUser = userManager.getUser(Long.parseLong(id));
     }
 
     @End
     public String edit() {
-        userManager.editUser(newUser);
+        userManager.editUser(editedUser);
         return "users?faces-redirect=true";
     }
 
     @Produces
-    @Model
+    @Named
     public User getEditedUser() {
-        return newUser;
+        return editedUser;
     }
 }

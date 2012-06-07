@@ -15,14 +15,14 @@ import java.util.List;
 public class UserManager implements Serializable {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public User createUser(User user) {
         entityManager.persist(user);
         return user;
     }
 
-    public User findUser(Long id) {
+    public User getUser(Long id) {
         return entityManager.find(User.class, id);
     }
 

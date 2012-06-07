@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
-public class UserAction {
+public class UsersAction {
     @Inject
-    UserManager userManager;
+    private UserManager userManager;
 
     @Produces
     @Model

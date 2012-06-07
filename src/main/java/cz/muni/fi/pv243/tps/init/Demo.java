@@ -23,9 +23,6 @@ public class Demo {
     @PersistenceContext
     EntityManager em;
 
-    @Inject
-    TopicManager topicManager;
-
     @PostConstruct
     public  void initialize(){
         // Demo users
