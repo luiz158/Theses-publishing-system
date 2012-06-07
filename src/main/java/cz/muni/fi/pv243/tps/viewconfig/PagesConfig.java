@@ -40,12 +40,16 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/users")
         USERS,
 
+        @ViewPattern(PAGES_PREFIX + "users/show.xhtml")
+        @UrlMapping(pattern = "/user/#{id}")
+        SHOW,
+
         @ViewPattern(PAGES_PREFIX + "users/new.xhtml")
         @UrlMapping(pattern = "/user/new")
-        NEW_USER,
+        NEW,
 
         @ViewPattern(PAGES_PREFIX + "users/edit.xhtml")
         @UrlMapping(pattern = "/user/#{id}/edit")
-        EDIT_USER,
+        EDIT,
     }
 }
