@@ -4,7 +4,6 @@ import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +16,7 @@ import java.io.Serializable;
 @RequestScoped
 public class NewUserAction implements Serializable  {
     @Inject
-    UserManager userManager;
+    private UserManager userManager;
 
     private User newUser = new User();
 
@@ -27,7 +26,7 @@ public class NewUserAction implements Serializable  {
     }
 
     @Produces
-    @Model
+    @Named
     public User getNewUser() {
         return newUser;
     }

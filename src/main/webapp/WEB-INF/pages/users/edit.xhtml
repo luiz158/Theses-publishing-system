@@ -6,12 +6,12 @@
                 xmlns:s="http://jboss.org/seam/faces"
                 template="/WEB-INF/templates/default.xhtml">
 
-    <ui:define name="pageTitle">Theses publishing system - Edit user</ui:define>
-
     <f:metadata>
         <f:viewParam name="id" value="#{_userid}"/>
         <s:viewAction action="#{editUserAction.setUserById(_userid)}"/>
     </f:metadata>
+
+    <ui:define name="pageTitle">Theses publishing system - Edit user</ui:define>
 
     <ui:define name="content">
         <h2>Edit user with id #{_userid}</h2>
