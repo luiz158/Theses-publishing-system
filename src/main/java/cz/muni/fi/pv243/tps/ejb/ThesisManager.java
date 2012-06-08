@@ -16,7 +16,7 @@ import java.util.List;
 public class ThesisManager implements Serializable{
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
 
     public Thesis getThesis(Long id){

@@ -17,7 +17,7 @@ import java.util.List;
 @Stateless
 public class TopicManager {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public ThesisTopic getTopic(Long id){
         return entityManager.find(ThesisTopic.class, id);

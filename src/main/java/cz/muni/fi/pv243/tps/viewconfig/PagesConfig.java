@@ -30,6 +30,10 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/topics")
         TOPICS,
 
+        @ViewPattern(PAGES_PREFIX + "/topics/show.xhtml")
+        @UrlMapping(pattern = "/topic/#{id}")
+        SHOW,
+
         @ViewPattern(PAGES_PREFIX + "topics/new.xhtml")
         @UrlMapping(pattern = "/topic/new")
         NEW,
