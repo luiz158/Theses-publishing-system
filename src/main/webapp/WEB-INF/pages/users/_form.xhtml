@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:s="http://jboss.org/seam/faces">
     <h:messages />
 
     <h:form>
@@ -21,6 +21,9 @@
             <h:inputSecret id="passwordRepeat"/>
 
         </h:panelGrid>
+
+        <s:validateForm validatorId="passwordMatchValidator"/>
+        <s:validateForm validatorId="emailMatchValidator"/>
 
         <h:commandButton action="#{confirmButtonObject[confirmButtonMethod]}" value="#{confirmButtonValue}" />
     </h:form>
