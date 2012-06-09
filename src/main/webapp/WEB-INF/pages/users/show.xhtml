@@ -11,14 +11,14 @@
         <s:viewAction action="#{showUserAction.setUserById(_userid)}"/>
     </f:metadata>
 
-    <ui:define name="pageTitle">Theses publishing system - Showing profile of #{user.username}</ui:define>
+    <ui:define name="pageTitle">Theses publishing system - Showing profile of <h:outputText value="#{user.username}"/></ui:define>
 
     <ui:define name="content">
-        <h2>Profile of user #{user.username}</h2>
+        <h2>Profile of user <h:outputText value="#{user.username}"/></h2>
 
         <ul>
-            <li>Id - #{user.id}</li>
-            <li>Username - #{user.username}</li>
+            <li>Id - <h:outputText value="#{user.id}"/></li>
+            <li>Username - <h:outputText value="#{user.username}"/></li>
         </ul>
 
     </ui:define>
