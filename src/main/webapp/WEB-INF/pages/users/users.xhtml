@@ -18,6 +18,14 @@
                 <f:facet name="header">Username</f:facet>
                 <p><h:outputText value="#{_user.username}"/></p>
             </h:column>
+            <h:column>
+                <f:facet name="header">Email</f:facet>
+                <p><h:outputText value="#{_user.email}"/></p>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <p><h:outputText value="#{_user.name}"/></p>
+            </h:column>
         </h:dataTable>
     </ui:define>
 </ui:composition>

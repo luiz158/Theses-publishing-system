@@ -1,5 +1,8 @@
 package cz.muni.fi.pv243.tps.domain;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,8 +20,10 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = SEQUENCE, generator = "project_sequence")
     private Long id;
 
+    @Length(min = 4, max = 50)
     private String name;
 
+    @NotEmpty
     private String description;
 
     @ManyToOne

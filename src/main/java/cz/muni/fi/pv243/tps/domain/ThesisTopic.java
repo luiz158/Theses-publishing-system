@@ -1,6 +1,10 @@
 package cz.muni.fi.pv243.tps.domain;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -21,10 +25,13 @@ public class ThesisTopic  implements Serializable {
     @ManyToOne
     private User supervisor;
 
-    private String Title;
+    @Length(min = 4, max = 50)
+    private String title;
 
-    private String Description;
+    @NotEmpty
+    private String description;
 
+    @Min(1)
     private int capacity;
 
     public ThesisTopic() {
@@ -51,19 +58,19 @@ public class ThesisTopic  implements Serializable {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return this.description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public int getCapacity() {
