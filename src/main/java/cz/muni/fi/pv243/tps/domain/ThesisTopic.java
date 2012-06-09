@@ -27,6 +27,12 @@ public class ThesisTopic  implements Serializable {
 
     private int capacity;
 
+    public ThesisTopic() {
+    }
+
+    public ThesisTopic(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

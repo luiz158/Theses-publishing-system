@@ -23,6 +23,13 @@ public class Thesis  implements Serializable {
     @ManyToOne
     private ThesisTopic topic;
 
+    public Thesis() {
+    }
+
+    public Thesis(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
