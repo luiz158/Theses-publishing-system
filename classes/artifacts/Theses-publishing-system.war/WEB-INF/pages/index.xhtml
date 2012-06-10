@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="pageTitle">Theses publishing system - Home</ui:define>
+
+    <ui:define name="content">
+        <h:dataTable value="#{theses}" var="_thesis">
+            <h:column>#{_thesis.id}</h:column>
+
+            <h:column>#{_thesis.topic.supervisor.username}</h:column>
+
+            <h:column>#{_thesis.worker.username}</h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>

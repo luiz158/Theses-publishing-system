@@ -1,0 +1,31 @@
+body {
+    font-family: "Trebuchet MS", "Arial", sans-serif;
+    font-size: 0.9em;
+    text-align: left;
+}
+#content, #header, #footer {
+    margin: 0 auto;
+    width: 1000px;
+}
+
+/* Styling */
+h1,h2,h3,h4,h5,h6 {
+    font-size: 1em;
+}
+
+h1 {
+    font-size: 2em;
+}
+h2 {
+    font-size: 1.5em;
+    font-style: italic;
+    font-weight: normal;
+}
+h3 {
+    font-size: 1.3em;
+    font-weight: normal;
+}
+h4 {
+    font-size: 1.2em;
+}
+
