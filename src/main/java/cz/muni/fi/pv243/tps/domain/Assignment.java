@@ -20,6 +20,13 @@ public class Assignment implements Serializable {
     @ManyToOne
     private User user;
 
+    public Assignment() {
+    }
+
+    public Assignment(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

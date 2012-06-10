@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:s="http://jboss.org/seam/faces">
     <h:messages />
 
     <h:form>
         <h:panelGrid columns="2">
             <h:outputLabel value="Username" for="username"/>
             <h:inputText id="username" value="#{user.username}" />
+            <h:outputLabel value="First name" for="firstName"/>
+            <h:inputText id="firstName" value="#{user.name.firstName}" />
+            <h:outputLabel value="Last name" for="lastName"/>
+            <h:inputText id="lastName" value="#{user.name.lastName}" />
+            <h:outputLabel value="Email" for="email"/>
+            <h:inputText id="email" value="#{user.email}" />
+            <h:outputLabel value="Repeat email" for="emailRepeat"/>
+            <h:inputText id="emailRepeat"/>
             <h:outputLabel value="Password" for="password" />
             <h:inputSecret id="password" value="#{user.password}"/>
-            <h:outputLabel value="Repeat Password" for="password" />
+            <h:outputLabel value="Repeat password" for="passwordRepeat" />
             <h:inputSecret id="passwordRepeat"/>
 
         </h:panelGrid>
+
+        <s:validateForm validatorId="passwordMatchValidator"/>
+        <s:validateForm validatorId="emailMatchValidator"/>
 
         <h:commandButton action="#{confirmButtonObject[confirmButtonMethod]}" value="#{confirmButtonValue}" />
     </h:form>

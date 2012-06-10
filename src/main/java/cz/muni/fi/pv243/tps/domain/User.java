@@ -1,6 +1,12 @@
 package cz.muni.fi.pv243.tps.domain;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
@@ -16,12 +22,25 @@ public class User implements Serializable {
     @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence")
     private Long id;
 
+    @Length(min = 4, max = 20)
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Length(min = 6, max = 30)
     private String password;
 
+    @Email
+    private String email;
+
+    @NotNull
     private Name name;
+
+    public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -55,6 +74,14 @@ public class User implements Serializable {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,7 +102,9 @@ public class User implements Serializable {
     // Inner class for Name representation
     @Embeddable
     public static class Name {
+        @NotEmpty
         private String firstName;
+        @NotEmpty
         private String lastName;
 
         public Name() {
@@ -120,6 +149,11 @@ public class User implements Serializable {
             int result = firstName != null ? firstName.hashCode() : 0;
             result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return firstName + " " + lastName;
         }
     }
 

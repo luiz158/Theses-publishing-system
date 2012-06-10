@@ -30,16 +30,19 @@ public class Demo {
         spvsr.setUsername("supervisor");
         spvsr.setPassword("password");
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
+        spvsr.setEmail("supr@email.com");
 
         User student = new User();
         student.setUsername("student");
         student.setPassword("password");
         student.setName(new User.Name("Studen", "Prvni"));
+        student.setEmail("stud@muni.cz");
 
         User student2 = new User();
         student2.setUsername("student2");
         student2.setPassword("password");
         student2.setName(new User.Name("Student", "Druhy"));
+        student2.setEmail("stud2@muni.cz");
 
         em.persist(spvsr);
         em.persist(student);

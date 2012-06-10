@@ -1,11 +1,13 @@
 package cz.muni.fi.pv243.tps.domain;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
@@ -18,8 +20,10 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = SEQUENCE, generator = "project_sequence")
     private Long id;
 
+    @Length(min = 4, max = 50)
     private String name;
 
+    @NotEmpty
     private String description;
 
     @ManyToOne
@@ -30,6 +34,13 @@ public class Project implements Serializable {
 
     @ManyToOne
     private ThesisTopic thesisTopic;
+
+    public Project() {
+    }
+
+    public Project(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

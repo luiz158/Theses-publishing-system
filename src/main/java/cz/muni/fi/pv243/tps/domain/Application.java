@@ -26,6 +26,13 @@ public class Application implements Serializable {
     @ManyToOne
     private ThesisTopic topic;
 
+    public Application() {
+    }
+
+    public Application(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
