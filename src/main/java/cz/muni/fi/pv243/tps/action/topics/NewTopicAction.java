@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class NewTopicAction implements Serializable{
 
     @Inject
-    private TopicManager topicManager;
+    private transient TopicManager topicManager;
 
     private ThesisTopic newTopic;
 

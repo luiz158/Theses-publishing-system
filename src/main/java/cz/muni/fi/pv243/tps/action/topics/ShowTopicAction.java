@@ -1,21 +1,26 @@
 package cz.muni.fi.pv243.tps.action.topics;
 
+import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
 @Named
-@RequestScoped
-public class ShowTopicAction {
+@ViewScoped
+public class ShowTopicAction implements Serializable {
     @Inject
-    private TopicManager topicManager;
+    private transient TopicManager topicManager;
 
     private ThesisTopic topic;
 
@@ -27,5 +32,11 @@ public class ShowTopicAction {
     @Named
     public ThesisTopic getTopic(){
         return topic;
+    }
+
+    @Produces
+    @Named
+    public List<Application> getTopicApplications(){
+        return topicManager.getApplications(topic);
     }
 }

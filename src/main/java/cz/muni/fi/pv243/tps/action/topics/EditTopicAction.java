@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class EditTopicAction implements Serializable {
 
     @Inject
-    private TopicManager topicManager;
+    private transient TopicManager topicManager;
 
     private ThesisTopic editedTopic;
 

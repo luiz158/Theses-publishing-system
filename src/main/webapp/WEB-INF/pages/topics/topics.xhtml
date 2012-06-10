@@ -13,17 +13,17 @@
         <h:dataTable value="#{topics}" var="_topic">
             <h:column>
                 <f:facet name="header">Id</f:facet>
-                #{_topic.id}
+                <h:outputText value="#{_topic.id}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Title</f:facet>
-                #{_topic.title}
+                <h:outputText value="#{_topic.title}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Capacity</f:facet>
-                #{_topic.capacity}
+                <h:outputText value="#{_topic.capacity}"/>
             </h:column>
 
             <h:column>#{_topic.supervisor.username}</h:column>

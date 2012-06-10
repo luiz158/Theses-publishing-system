@@ -11,6 +11,9 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "application_sequence")
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"applicant_id", "topic_id"})
+)
 public class Application implements Serializable {
 
     @Id

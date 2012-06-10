@@ -35,6 +35,12 @@ public class TopicManager {
         entityManager.merge(topic);
     }
 
+    public List<Application> getApplications(ThesisTopic topic){
+        return entityManager.createQuery("SELECT a FROM Application a WHERE a.topic = :topic", Application.class)
+                .setParameter("topic", topic)
+                .getResultList();
+    }
+
     public void apply(User user, ThesisTopic topic){
         try{
             Application application = new Application();
