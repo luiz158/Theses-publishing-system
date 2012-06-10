@@ -40,6 +40,6 @@ public class UserManagerTest {
     @Test
     public void testGetUser() {
         User user = userManager.getUser(1L);
-        assertEquals("supervisor", user.getUsername());
+        assertEquals("supervisor", user.getCredentials().getUsername());
     }
 }

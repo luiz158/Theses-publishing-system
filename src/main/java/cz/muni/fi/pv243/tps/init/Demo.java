@@ -27,20 +27,23 @@ public class Demo {
     public  void initialize(){
         // Demo users
         User spvsr = new User();
-        spvsr.setUsername("supervisor");
-        spvsr.setPassword("password");
+        spvsr.setCredentials(new User.Credentials());
+        spvsr.getCredentials().setUsername("supervisor");
+        spvsr.getCredentials().setPassword("password");
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
         User student = new User();
-        student.setUsername("student");
-        student.setPassword("password");
+        student.setCredentials(new User.Credentials());
+        student.getCredentials().setUsername("student");
+        student.getCredentials().setPassword("password");
         student.setName(new User.Name("Studen", "Prvni"));
         student.setEmail("stud@muni.cz");
 
         User student2 = new User();
-        student2.setUsername("student2");
-        student2.setPassword("password");
+        student2.setCredentials(new User.Credentials());
+        student2.getCredentials().setUsername("student2");
+        student2.getCredentials().setPassword("password");
         student2.setName(new User.Name("Student", "Druhy"));
         student2.setEmail("stud2@muni.cz");
 
