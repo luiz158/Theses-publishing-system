@@ -48,7 +48,13 @@ public class ApplicationManager {
         apply(user, topic);
     }
 
-    public void acceptApplication() {
+    public void acceptApplication(Application application) {
+        application.setStatus(Application.Status.ACCEPTED);
+        entityManager.merge(application);
+        entityManager.flush();
+    }
 
+    public void declineApplication(Application application) {
+        application.setStatus(Application.Status.DECLINED);
     }
 }

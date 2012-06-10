@@ -26,6 +26,9 @@ public class Application implements Serializable {
     @ManyToOne
     private ThesisTopic topic;
 
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.WAITING;
+
     public Application() {
     }
 
@@ -57,6 +60,14 @@ public class Application implements Serializable {
         this.topic = topic;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,5 +83,14 @@ public class Application implements Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public void declineApplication(Application application) {
+    }
+
+    public static enum Status{
+        ACCEPTED,
+        DECLINED,
+        WAITING,
     }
 }

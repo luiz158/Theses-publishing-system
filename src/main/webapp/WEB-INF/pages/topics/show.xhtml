@@ -11,7 +11,8 @@
         <s:viewAction action="#{showTopicAction.setTopicById(_topicId)}"/>
     </f:metadata>
 
-    <ui:define name="page Title">Theses publishing system - Showing details of <h:outputText value="#{topic.title}"/></ui:define>
+    <ui:define name="page Title">Theses publishing system - Showing details of <h:outputText
+            value="#{topic.title}"/></ui:define>
 
     <ui:define name="content">
         <h2><h:outputText value="#{topic.title}"/></h2>
@@ -31,7 +32,19 @@
             <h:column>
                 <h:outputText value="#{_application.applicant.name.firstName} #{_application.applicant.name.lastName}"/>
             </h:column>
+
+            <h:column>
+                <h:outputText value="#{_application.status}"/>
+            </h:column>
+
+            <h:column>
+                <h:form>
+                    <h:commandButton action="#{processApplicationAction.accept(_application)}" value="accept"/>
+                    <h:commandButton action="#{processApplicationAction.decline(_application)}" value="decline"/>
+                </h:form>
+            </h:column>
         </h:dataTable>
+
         <h3>Description</h3>
 
         <p><h:outputText value="#{topic.description}"/></p>

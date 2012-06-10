@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.tps.ejb;
 
+import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 
 import javax.ejb.Stateless;
@@ -21,6 +22,17 @@ public class ThesisManager implements Serializable{
 
     public Thesis getThesis(Long id){
         return em.find(Thesis.class, id);
+    }
+
+    public void createThesis(Thesis thesis){
+        em.persist(thesis);
+    }
+
+    public void createThesisFromApplication(Application application){
+        Thesis thesis = new Thesis();
+        thesis.setWorker(application.getApplicant());
+        thesis.setTopic(application.getTopic());
+        createThesis(thesis);
     }
 
     public List<Thesis> getTheses(){
