@@ -2,10 +2,9 @@ package cz.muni.fi.pv243.tps.action.topics;
 
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
+import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +21,9 @@ public class ShowTopicAction implements Serializable {
     @Inject
     private transient TopicManager topicManager;
 
+    @Inject
+    private transient ApplicationManager applicationManager;
+
     private ThesisTopic topic;
 
     public void  setTopicById(String id){
@@ -37,6 +39,6 @@ public class ShowTopicAction implements Serializable {
     @Produces
     @Named
     public List<Application> getTopicApplications(){
-        return topicManager.getApplications(topic);
+        return applicationManager.getApplicationsByTopic(topic);
     }
 }

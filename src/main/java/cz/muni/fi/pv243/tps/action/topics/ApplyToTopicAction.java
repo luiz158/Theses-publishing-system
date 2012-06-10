@@ -1,6 +1,7 @@
 package cz.muni.fi.pv243.tps.action.topics;
 
 import com.ocpsoft.pretty.PrettyContext;
+import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 
 import javax.enterprise.context.ConversationScoped;
@@ -18,10 +19,10 @@ import java.io.Serializable;
 @ViewScoped
 public class ApplyToTopicAction implements Serializable {
     @Inject
-    private transient TopicManager topicManager;
+    private transient ApplicationManager applicationManager;
 
     public String apply(String topicId){
-        topicManager.apply(1L, Long.parseLong(topicId));
+        applicationManager.apply(1L, Long.parseLong(topicId));
         return "pretty:";
     }
 

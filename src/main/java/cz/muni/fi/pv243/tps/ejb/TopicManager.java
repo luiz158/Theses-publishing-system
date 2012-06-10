@@ -34,30 +34,4 @@ public class TopicManager {
     public void editTopic(ThesisTopic topic){
         entityManager.merge(topic);
     }
-
-    public List<Application> getApplications(ThesisTopic topic){
-        return entityManager.createQuery("SELECT a FROM Application a WHERE a.topic = :topic", Application.class)
-                .setParameter("topic", topic)
-                .getResultList();
-    }
-
-    public void apply(User user, ThesisTopic topic){
-        try{
-            Application application = new Application();
-            application.setApplicant(user);
-            application.setTopic(topic);
-            entityManager.persist(application);
-            entityManager.flush();
-        } catch (Exception e){
-            throw new InvalidApplicationAttemptException();
-        }
-    }
-
-    public void apply(Long userId, Long topicId){
-            User user = new User();
-            user.setId(userId);
-            ThesisTopic topic = new ThesisTopic();
-            topic.setId(topicId);
-            apply(user, topic);
-    }
 }
