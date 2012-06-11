@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.validation;
 
 import org.jboss.seam.faces.validation.InputField;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
+@RequestScoped
 @FacesValidator("passwordMatchValidator")
 public class PasswordMatchValidator implements Validator {
 
