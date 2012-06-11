@@ -11,10 +11,13 @@ import org.jboss.solder.messages.Message;
 @MessageLogger
 public interface ApplicationLogger {
 
-    @Log @Message("Student %d applied to thesis topic %d")
+    @Log @Message("Student %d applied to thesis topic %d.")
     void applicationSent(Long studentId, Long topicId);
 
-    @Log @Message("Status of application %d changed to %s by user %d")
-    void applicationStatusChanged(Long applicationId, Application.Status status, Long userId);
+    @Log @Message("Status of application %d changed to %s.")
+    void applicationStatusChanged(Long applicationId, Application.Status status);
+
+    @Log @Message("Application with id %d created.")
+    void applicationCreated(Long applicationId);
 
 }

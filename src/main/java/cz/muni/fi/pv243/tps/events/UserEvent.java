@@ -5,8 +5,12 @@ import cz.muni.fi.pv243.tps.domain.User;
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
-public abstract class UserEvent {
+public class UserEvent {
     private User user;
+
+    public UserEvent(User user) {
+        this.user = user;
+    }
 
     public User getUser() {
         return user;

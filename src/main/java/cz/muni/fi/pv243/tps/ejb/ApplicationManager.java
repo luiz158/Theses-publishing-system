@@ -3,9 +3,15 @@ package cz.muni.fi.pv243.tps.ejb;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
+import cz.muni.fi.pv243.tps.events.qualifiers.Create;
+import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
+import cz.muni.fi.pv243.tps.events.ApplicationEvent;
+import cz.muni.fi.pv243.tps.events.qualifiers.StatusChange;
 import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -17,6 +23,18 @@ import java.util.List;
 public class ApplicationManager {
     @PersistenceContext
     EntityManager entityManager;
+
+    @Inject
+    @Create
+    private Event<ApplicationEvent> createEvent;
+
+    @Inject
+    @Acceptation
+    private Event<ApplicationEvent> acceptationEvent;
+
+    @Inject
+    @StatusChange
+    private  Event<ApplicationEvent> statusEvent;
 
     public Application getApplication(Long id){
         return entityManager.find(Application.class, id);
@@ -35,6 +53,7 @@ public class ApplicationManager {
             application.setTopic(topic);
             entityManager.persist(application);
             entityManager.flush();
+            createEvent.fire(new ApplicationEvent(application));
         } catch (Exception e) {
             throw new InvalidApplicationAttemptException();
         }
@@ -52,9 +71,16 @@ public class ApplicationManager {
         application.setStatus(Application.Status.ACCEPTED);
         entityManager.merge(application);
         entityManager.flush();
+
+        acceptationEvent.fire(new ApplicationEvent(application));
+        statusEvent.fire(new ApplicationEvent(application));
     }
 
     public void declineApplication(Application application) {
         application.setStatus(Application.Status.DECLINED);
+        entityManager.merge(application);
+        entityManager.flush();
+
+        statusEvent.fire(new ApplicationEvent(application));
     }
 }

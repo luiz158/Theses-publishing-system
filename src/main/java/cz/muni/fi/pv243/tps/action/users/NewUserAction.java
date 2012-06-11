@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.tps.action.users;
 
-import cz.muni.fi.pv243.tps.events.UserCreatedEvent;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 
@@ -20,14 +19,10 @@ public class NewUserAction implements Serializable  {
     @Inject
     private UserManager userManager;
 
-    @Inject
-    private Event<UserCreatedEvent> event;
-
     private User newUser = new User();
 
     public String create() {
         userManager.createUser(newUser);
-        event.fire(new UserCreatedEvent(newUser));
         return "users?faces-redirect=true";
     }
 

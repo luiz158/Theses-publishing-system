@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.tps.action.users;
 
-import cz.muni.fi.pv243.tps.events.UserEditedEvent;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import org.jboss.seam.faces.context.conversation.Begin;
@@ -23,9 +22,6 @@ public class EditUserAction implements Serializable {
     @Inject
     private UserManager userManager;
 
-    @Inject
-    private Event<UserEditedEvent> event;
-
     private User editedUser;
 
     @Begin
@@ -36,7 +32,6 @@ public class EditUserAction implements Serializable {
     @End
     public String edit() {
         userManager.editUser(editedUser);
-        event.fire(new UserEditedEvent(editedUser));
         return "users?faces-redirect=true";
     }
 

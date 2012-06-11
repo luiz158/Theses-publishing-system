@@ -1,13 +1,8 @@
-package cz.muni.fi.pv243.tps.action.topics;
+package cz.muni.fi.pv243.tps.action.applications;
 
-import com.ocpsoft.pretty.PrettyContext;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
-import cz.muni.fi.pv243.tps.ejb.TopicManager;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -25,6 +20,4 @@ public class ApplyToTopicAction implements Serializable {
         applicationManager.apply(1L, Long.parseLong(topicId));
         return "pretty:";
     }
-
-
 }

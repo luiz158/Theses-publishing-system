@@ -1,10 +1,12 @@
-package cz.muni.fi.pv243.tps.action.topics;
+package cz.muni.fi.pv243.tps.action.applications;
 
-import cz.muni.fi.pv243.tps.Events.ApplicationAcceptedEvent;
+import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
+import cz.muni.fi.pv243.tps.events.ApplicationEvent;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.util.AnnotationLiteral;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,12 +21,8 @@ public class ProcessApplicationAction  implements Serializable {
     @Inject
     private transient ApplicationManager applicationManager;
 
-    @Inject
-    Event<ApplicationAcceptedEvent> event;
-
     public String accept(Application application){
         applicationManager.acceptApplication(application);
-        event.fire(new ApplicationAcceptedEvent(application));
         return "pretty:";
     }
 
