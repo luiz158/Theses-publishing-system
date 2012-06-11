@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.tps.action.users;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
@@ -19,7 +20,14 @@ public class NewUserAction implements Serializable  {
     @Inject
     private UserManager userManager;
 
-    private User newUser = new User();
+    private User newUser;
+
+    @PostConstruct
+    public void init() {
+        newUser = new User();
+        newUser.setCredentials(new User.Credentials());
+        newUser.setName(new User.Name());
+    }
 
     public String create() {
         userManager.createUser(newUser);
