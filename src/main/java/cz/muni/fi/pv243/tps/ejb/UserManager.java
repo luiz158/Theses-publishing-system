@@ -32,11 +32,10 @@ public class UserManager implements Serializable {
     @Update
     private Event<UserEvent> updateEvent;
 
-    public User createUser(User user) {
+    public void createUser(User user) {
         entityManager.persist(user);
         entityManager.flush();
         createEvent.fire(new UserEvent(user));
-        return user;
     }
 
     public User getUser(Long id) {

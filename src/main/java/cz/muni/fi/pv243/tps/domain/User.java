@@ -97,6 +97,14 @@ public class User implements Serializable {
         @Length(min = 6, max = 30)
         private String password;
 
+        public Credentials() {
+        }
+
+        public Credentials(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
         @Override
         public String getId() {
             return getUsername();
