@@ -1,6 +1,8 @@
 package cz.muni.fi.pv243.tps.viewconfig;
 
+import org.jboss.seam.faces.rewrite.FacesRedirect;
 import org.jboss.seam.faces.rewrite.UrlMapping;
+import org.jboss.seam.faces.security.AccessDeniedView;
 import org.jboss.seam.faces.security.LoginView;
 import org.jboss.seam.faces.view.config.ViewConfig;
 import org.jboss.seam.faces.view.config.ViewPattern;
@@ -14,6 +16,14 @@ public interface PagesConfig {
     public static final String PAGES_PREFIX = "/WEB-INF/pages/";
 
     static enum Pages {
+
+        @FacesRedirect
+        @ViewPattern("/*")
+        @AccessDeniedView(PAGES_PREFIX + "denied.xhtml")
+        @LoginView(PAGES_PREFIX + "login.xhtml")
+        ALL,
+
+        //@LoggedIn
         @ViewPattern(PAGES_PREFIX + "index.xhtml")
         @UrlMapping(pattern = "/")
         INDEX,

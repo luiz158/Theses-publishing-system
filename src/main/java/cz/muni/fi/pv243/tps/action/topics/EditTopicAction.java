@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.tps.action.topics;
 
+import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 import org.jboss.seam.faces.context.conversation.Begin;
@@ -36,6 +37,7 @@ public class EditTopicAction implements Serializable {
 
     @Produces
     @Named
+    @Current
     public ThesisTopic getEditedTopic(){
         return editedTopic;
     }

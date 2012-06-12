@@ -11,7 +11,7 @@ import javax.inject.Inject;
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
-public class LoginAuthenticator extends BaseAuthenticator {
+public class UserAuthenticator extends BaseAuthenticator {
 
     @Inject
     private Credentials credentials;
