@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class EditUserAction implements Serializable {
 
     @Inject
-    private UserManager userManager;
+    private transient UserManager userManager;
 
     private User editedUser;
 

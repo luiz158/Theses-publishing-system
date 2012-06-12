@@ -6,7 +6,7 @@
     <h:form>
         <h:panelGrid columns="2">
             <h:outputLabel value="Username" for="username"/>
-            <h:inputText id="username" value="#{user.credentials.username}" />
+            <h:inputText id="username" value="#{user.userIdentity.username}" />
             <h:outputLabel value="First name" for="firstName"/>
             <h:inputText id="firstName" value="#{user.name.firstName}" />
             <h:outputLabel value="Last name" for="lastName"/>
@@ -16,7 +16,7 @@
             <h:outputLabel value="Repeat email" for="emailRepeat"/>
             <h:inputText id="emailRepeat"/>
             <h:outputLabel value="Password" for="password" />
-            <h:inputSecret id="password" value="#{user.credentials.username}"/>
+            <h:inputSecret id="password" value="#{user.userIdentity.password}"/>
             <h:outputLabel value="Repeat password" for="passwordRepeat" />
             <h:inputSecret id="passwordRepeat"/>
 

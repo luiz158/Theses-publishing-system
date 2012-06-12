@@ -4,12 +4,11 @@ import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
-import cz.muni.fi.pv243.tps.ejb.TopicManager;
+import cz.muni.fi.pv243.tps.security.UserIdentity;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -27,23 +26,17 @@ public class Demo {
     public  void initialize(){
         // Demo users
         User spvsr = new User();
-        spvsr.setCredentials(new User.Credentials());
-        spvsr.getCredentials().setUsername("supervisor");
-        spvsr.getCredentials().setPassword("password");
+        spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
         User student = new User();
-        student.setCredentials(new User.Credentials());
-        student.getCredentials().setUsername("student");
-        student.getCredentials().setPassword("password");
+        student.setUserIdentity(new UserIdentity("student", "password"));
         student.setName(new User.Name("Studen", "Prvni"));
         student.setEmail("stud@muni.cz");
 
         User student2 = new User();
-        student2.setCredentials(new User.Credentials());
-        student2.getCredentials().setUsername("student2");
-        student2.getCredentials().setPassword("password");
+        student2.setUserIdentity(new UserIdentity("student2", "password"));
         student2.setName(new User.Name("Student", "Druhy"));
         student2.setEmail("stud2@muni.cz");
 

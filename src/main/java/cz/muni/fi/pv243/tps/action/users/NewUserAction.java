@@ -2,21 +2,20 @@ package cz.muni.fi.pv243.tps.action.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
+import cz.muni.fi.pv243.tps.security.UserIdentity;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @Named
 @RequestScoped
-public class NewUserAction implements Serializable  {
+public class NewUserAction {
     @Inject
     private UserManager userManager;
 
@@ -25,7 +24,7 @@ public class NewUserAction implements Serializable  {
     @PostConstruct
     public void init() {
         newUser = new User();
-        newUser.setCredentials(new User.Credentials());
+        newUser.setUserIdentity(new UserIdentity());
         newUser.setName(new User.Name());
     }
 

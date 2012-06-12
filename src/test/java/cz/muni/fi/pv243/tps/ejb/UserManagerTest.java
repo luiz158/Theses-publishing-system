@@ -3,14 +3,12 @@ package cz.muni.fi.pv243.tps.ejb;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.events.UserEvent;
 import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationOperationException;
-import cz.muni.fi.pv243.tps.exceptions.InvalidCredentialsException;
+import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
+import cz.muni.fi.pv243.tps.security.Role;
+import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,19 +41,13 @@ public class UserManagerTest {
 
     @Deployment
     public static WebArchive createDeployment() {
-        MavenDependencyResolver resolver = DependencyResolvers
-                .use(MavenDependencyResolver.class)
-                .includeDependenciesFromPom("pom.xml");
-
-        WebArchive archive = ShrinkWrap.create(WebArchive.class)
+        WebArchive archive = ArchiveTemplates.WEB_ARCHIVE
                 .addClass(UserManager.class)
+                .addClass(UserIdentity.class)
+                .addClass(Role.class)
                 .addPackage(User.class.getPackage())
                 .addPackage(InvalidApplicationOperationException.class.getPackage())
-                .addPackage(UserEvent.class.getPackage())
-                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource("jbossas-ds.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsLibraries(resolver.resolveAsFiles());
+                .addPackage(UserEvent.class.getPackage());
 
         System.out.println(archive.toString(true));
         return archive;
@@ -66,18 +58,17 @@ public class UserManagerTest {
     @Before
     public void setUp() {
         User spvsr = new User();
-        spvsr.setCredentials(new User.Credentials("supervisor", "password"));
+        spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
         User student = new User();
-        User.Credentials credentials = new User.Credentials();
-        student.setCredentials(new User.Credentials("student", "password"));
-        student.setName(new User.Name("Studen", "Prvni"));
+        student.setUserIdentity(new UserIdentity("student", "password"));
+        student.setName(new User.Name("Student", "Prvni"));
         student.setEmail("stud@muni.cz");
 
         User student2 = new User();
-        student2.setCredentials(new User.Credentials("student2", "password"));
+        student2.setUserIdentity(new UserIdentity("student2", "password"));
         student2.setName(new User.Name("Student", "Druhy"));
         student2.setEmail("stud2@muni.cz");
 
@@ -119,31 +110,31 @@ public class UserManagerTest {
     @Test
     public void testCreateUser() {
         User expected = new User();
-        expected.setCredentials(new User.Credentials("TestUser", "TestUserPassword"));
+        expected.setUserIdentity(new UserIdentity("TestUser", "TestUserPassword"));
         expected.setName(new User.Name("Test", "User"));
         userManager.createUser(expected);
 
         User actual = userManager.getUser(expected.getId());
 
-        assertEquals(expected.getCredentials().getUsername(), actual.getCredentials().getUsername());
+        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
     }
 
     @Test
     public void testEditUser() {
         User expected = userManager.getUser(users.get(0).getId());
-        expected.setCredentials(new User.Credentials("supervisor2", "newpassword"));
+        expected.setUserIdentity(new UserIdentity("supervisor2", "newpassword"));
         userManager.editUser(expected);
 
         User actual = userManager.getUser(users.get(0).getId());
 
-        assertEquals(expected.getCredentials().getUsername(), actual.getCredentials().getUsername());
+        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
     }
 
     @Test
     public void testGetExistingUser() {
         User expected = users.get(0);
         User actual = userManager.getUser(expected.getId());
-        assertEquals(expected.getCredentials().getUsername(), actual.getCredentials().getUsername());
+        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
     }
 
     @Test
@@ -153,23 +144,26 @@ public class UserManagerTest {
     }
     
     @Test
-    public void testGetExistingUserByCredentials() {
+    public void testGetExistingUserByUserIdentity() {
         User expected = users.get(0);
-        User actual = userManager.getUserByCredentials(expected.getCredentials());
-        assertEquals(expected.getCredentials(), actual.getCredentials());
+        for (User u : userManager.getUsers()) {
+            System.out.println("DEBUG " + u.getUserIdentity().getUsername() + " " + u.getUserIdentity().getPassword());
+        }
+        User actual = userManager.getUserByUserIdentity(expected.getUserIdentity());
+        assertEquals(expected.getUserIdentity(), actual.getUserIdentity());
     }
 
-    @Test(expected = InvalidCredentialsException.class)
-    public void testGetNotExistingUserByCredentials() {
-        userManager.getUserByCredentials(new User.Credentials("NotExistingUsername", "NotExistingPassword"));
+    @Test(expected = InvalidUserIdentityException.class)
+    public void testGetNotExistingUserByUserIdentity() {
+        userManager.getUserByUserIdentity(new UserIdentity("NotExistingUsername", "NotExistingPassword"));
     }
 
     @Test
     public void testGetUsers() {
         List<User> users = userManager.getUsers();
 
-        assertEquals(this.users.get(0).getCredentials().getUsername(), users.get(0).getCredentials().getUsername());
-        assertEquals(this.users.get(1).getCredentials().getUsername(), users.get(1).getCredentials().getUsername());
-        assertEquals(this.users.get(2).getCredentials().getUsername(), users.get(2).getCredentials().getUsername());
+        assertEquals(this.users.get(0).getUserIdentity().getUsername(), users.get(0).getUserIdentity().getUsername());
+        assertEquals(this.users.get(1).getUserIdentity().getUsername(), users.get(1).getUserIdentity().getUsername());
+        assertEquals(this.users.get(2).getUserIdentity().getUsername(), users.get(2).getUserIdentity().getUsername());
     }
 }

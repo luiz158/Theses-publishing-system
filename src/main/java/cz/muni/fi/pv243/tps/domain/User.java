@@ -1,8 +1,7 @@
 package cz.muni.fi.pv243.tps.domain;
 
+import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull
-    private Credentials credentials;
+    private UserIdentity userIdentity;
 
     @Email
     private String email;
@@ -46,12 +45,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Credentials getCredentials() {
-        return credentials;
+    public UserIdentity getUserIdentity() {
+        return userIdentity;
     }
 
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
+    public void setUserIdentity(UserIdentity userIdentity) {
+        this.userIdentity = userIdentity;
     }
 
     public Name getName() {
@@ -87,74 +86,9 @@ public class User implements Serializable {
         return id != null ? id.hashCode() : 0;
     }
 
-    // User credentials
-    @Embeddable
-    public static class Credentials implements org.picketlink.idm.api.User {
-        @Length(min = 4, max = 20)
-        @Column(nullable = false, unique = true)
-        private String username;
-
-        @Length(min = 6, max = 30)
-        private String password;
-
-        public Credentials() {
-        }
-
-        public Credentials(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
-
-        @Override
-        public String getId() {
-            return getUsername();
-        }
-
-        @Override
-        public String getKey() {
-            return getId();
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Credentials that = (Credentials) o;
-
-            if (password != null ? !password.equals(that.password) : that.password != null) return false;
-            if (username != null ? !username.equals(that.username) : that.username != null) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = username != null ? username.hashCode() : 0;
-            result = 31 * result + (password != null ? password.hashCode() : 0);
-            return result;
-        }
-    }
-
     // Inner class for Name representation
     @Embeddable
-    public static class Name {
+    public static class Name implements Serializable {
         @NotEmpty
         private String firstName;
         @NotEmpty
