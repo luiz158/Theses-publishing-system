@@ -39,6 +39,10 @@ public interface PagesConfig {
         @ViewPattern(PAGES_PREFIX + "login.xhtml")
         @UrlMapping(pattern = "/login")
         LOG_IN,
+
+        @ViewPattern(PAGES_PREFIX + "logout.xhtml")
+        @UrlMapping(pattern = "/logout")
+        LOG_OUT,
     }
 
     static enum Topics {

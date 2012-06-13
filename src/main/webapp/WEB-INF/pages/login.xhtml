@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="head">
+        <h:panelGroup rendered="#{identity.loggedIn}">
+            <meta http-equiv="refresh" content="5;url=#{request.contextPath}" />
+        </h:panelGroup>
+    </ui:define>
 
     <ui:define name="pageTitle">Theses publishing system - Log in</ui:define>
 
     <ui:define name="content">
-        <h2>Log in</h2>
+        <h:panelGroup rendered="#{!identity.loggedIn}">
+            <h2>Log in</h2>
 
-        <h:messages />
+            <h:messages />
 
-        <h:form>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Username" for="username"/>
-                <h:inputText id="username" value="#{credentials.username}" />
-                <h:outputLabel value="Password" for="password" />
-                <h:inputSecret id="password" value="#{credentials.password}"/>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Username" for="username"/>
+                    <h:inputText id="username" value="#{credentials.username}" />
+                    <h:outputLabel value="Password" for="password" />
+                    <h:inputSecret id="password" value="#{credentials.password}"/>
 
-            </h:panelGrid>
+                </h:panelGrid>
 
-            <h:commandButton action="#{identity.login}" value="Log in" />
-        </h:form>
+                <h:commandButton action="#{identity.login}" value="Log in" />
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{identity.loggedIn}">
+            <h3>You have been successfully logged in.</h3>
+            <p>Click <h:link outcome="/WEB-INF/pages/index.xhtml">here</h:link> to get back to the front page or wait 5 seconds.</p>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

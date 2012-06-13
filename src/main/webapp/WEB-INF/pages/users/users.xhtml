@@ -28,6 +28,15 @@
                 <f:facet name="header">Name</f:facet>
                 <p><h:outputText value="#{_user.name}"/></p>
             </h:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <div>
+                    <h:link outcome="/WEB-INF/pages/users/show.xhtml?id=#{_user.id}">Show</h:link>
+                </div>
+                <div>
+                    <h:link outcome="/WEB-INF/pages/users/edit.xhtml?id=#{_user.id}">Edit</h:link>
+                </div>
+            </h:column>
         </h:dataTable>
     </ui:define>
 </ui:composition>

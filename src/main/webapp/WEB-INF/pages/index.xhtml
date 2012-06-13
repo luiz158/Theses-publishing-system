@@ -7,12 +7,8 @@
     <ui:define name="pageTitle">Theses publishing system - Home</ui:define>
 
     <ui:define name="content">
-        <h:dataTable value="#{theses}" var="_thesis">
-            <h:column>#{_thesis.id}</h:column>
+        <h2>Welcome</h2>
 
-            <h:column>#{_thesis.topic.supervisor.userIdentity.username}</h:column>
-
-            <h:column>#{_thesis.worker.userIdentity.username}</h:column>
-        </h:dataTable>
+        <p>There is nothing on this page, yet. Choose something from the navigation bar.</p>
     </ui:define>
 </ui:composition>
