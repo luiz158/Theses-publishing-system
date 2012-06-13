@@ -3,6 +3,8 @@ package cz.muni.fi.pv243.tps.action.users;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
+import org.jboss.seam.international.status.Messages;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -19,6 +21,9 @@ public class NewUserAction {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private Messages messages;
+
     private User newUser;
 
     @PostConstruct
@@ -30,7 +35,8 @@ public class NewUserAction {
 
     public String create() {
         userManager.createUser(newUser);
-        return "users?faces-redirect=true";
+        messages.info("Your account has been successfully created.");
+        return PagesConfig.PAGES_PREFIX + "index.xhtml?faces-redirect=true";
     }
 
     @Produces

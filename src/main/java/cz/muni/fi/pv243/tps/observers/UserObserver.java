@@ -9,11 +9,4 @@ import javax.enterprise.event.Observes;
  */
 public class UserObserver {
 
-//    public void userCreatedMessage(@Observes UserCreatedEvent event, Messages messages) {
-//        messages.info("Your account has been successfully created.");
-//    }
-//
-//    public void userEditedMessage(@Observes UserEditedEvent event, Messages messages) {
-//        messages.info("User with id {0} successfully updated.", event.getUser().getId());
-//    }
 }

@@ -4,8 +4,10 @@ import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.Admin;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.seam.international.status.Messages;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Event;
@@ -24,6 +26,9 @@ public class EditUserAction implements Serializable {
     @Inject
     private transient UserManager userManager;
 
+    @Inject
+    private Messages messages;
+
     private User editedUser;
 
     @Begin
@@ -34,7 +39,8 @@ public class EditUserAction implements Serializable {
     @End
     public String edit() {
         userManager.editUser(editedUser);
-        return "users?faces-redirect=true";
+        messages.info("Your profile has been successfully updated.");
+        return PagesConfig.PAGES_PREFIX + "users/show.xhtml?id=" + editedUser.getId() + "&faces-redirect=true";
     }
 
     @Produces
