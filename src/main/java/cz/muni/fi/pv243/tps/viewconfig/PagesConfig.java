@@ -17,7 +17,6 @@ public interface PagesConfig {
 
     static enum Pages {
 
-        @FacesRedirect
         @ViewPattern("/*")
         @AccessDeniedView(PAGES_PREFIX + "denied.xhtml")
         @LoginView(PAGES_PREFIX + "login.xhtml")
@@ -36,6 +35,7 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/403")
         ACCESS_DENIED,
 
+        @FacesRedirect
         @ViewPattern(PAGES_PREFIX + "login.xhtml")
         @UrlMapping(pattern = "/login")
         LOG_IN,
