@@ -57,36 +57,33 @@ public class UserManagerTest {
 
     @Before
     public void setUp() {
-        User spvsr = new User();
+        final User spvsr = new User();
         spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
         spvsr.getUserIdentity().setRole(Role.SUPERVISOR);
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
-        User admin = new User();
+        final User admin = new User();
         admin.setUserIdentity(new UserIdentity("admin", "password"));
         admin.getUserIdentity().setRole(Role.ADMIN);
         admin.setName(new User.Name("Admin", "Prvni"));
         admin.setEmail("admin@admin.cz");
 
-        User student = new User();
+        final User student = new User();
         student.setUserIdentity(new UserIdentity("student", "password"));
         student.getUserIdentity().setRole(Role.STUDENT);
         student.setName(new User.Name("Student", "Druhy"));
         student.setEmail("stud@muni.cz");
 
-        try {
-            transaction.begin();
-            entityManager.persist(spvsr);
-            entityManager.persist(admin);
-            entityManager.persist(student);
-            transaction.commit();
-        } catch (Exception e) {
-            try {
-                transaction.rollback();
-            } catch (Exception e1) {
+        new TransactionProxy(transaction, new TransactionProxyable() {
+            @Override
+            public Object execute() {
+                entityManager.persist(spvsr);
+                entityManager.persist(admin);
+                entityManager.persist(student);
+                return null;
             }
-        }
+        }).execute();
 
         users.add(0, spvsr);
         users.add(1, admin);
@@ -95,78 +92,90 @@ public class UserManagerTest {
 
     @After
     public void tearDown() {
-        try {
-            transaction.begin();
-            List<User> users = entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
-            for (User u : users) {
-                entityManager.remove(u);
+        new TransactionProxy(transaction, new TransactionProxyable() {
+            @Override
+            public Object execute() {
+                List<User> users = entityManager
+                        .createQuery("SELECT u FROM User u", User.class)
+                        .getResultList();
+                for (User u : users) {
+                    entityManager.remove(u);
+                }
+                return null;
             }
-            transaction.commit();
-        } catch (Exception e) {
-            try {
-                transaction.rollback();
-            } catch (Exception e1) {
-            }
-        }
+        }).execute();
     }
 
     @Test
-    public void testCreateUser() {
-        User expected = new User();
+    public void createUserTest() {
+        final User expected = new User();
         expected.setUserIdentity(new UserIdentity("TestUser", "TestUserPassword"));
         expected.setName(new User.Name("Test", "User"));
         userManager.createUser(expected);
 
-        User actual = userManager.getUser(expected.getId());
+        final User actual = (User) new TransactionProxy(transaction, new TransactionProxyable() {
+            @Override
+            public Object execute() {
+                return entityManager.find(User.class, expected.getId());
+            }
+        }).execute();
 
-        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testEditUser() {
-        User expected = userManager.getUser(users.get(0).getId());
+    public void editUserTest() {
+        final User expected = users.get(0);
         expected.setUserIdentity(new UserIdentity("supervisor2", "newpassword"));
         userManager.editUser(expected);
 
-        User actual = userManager.getUser(users.get(0).getId());
+        final User actual = (User) new TransactionProxy(transaction, new TransactionProxyable() {
+            @Override
+            public Object execute() {
+                return entityManager.find(User.class, expected.getId());
+            }
+        }).execute();
 
-        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetExistingUser() {
+    public void getExistingUserTest() {
         User expected = users.get(0);
         User actual = userManager.getUser(expected.getId());
-        assertEquals(expected.getUserIdentity().getUsername(), actual.getUserIdentity().getUsername());
+
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNotExistingUser() {
+    public void getNotExistingUserTest() {
         User user = userManager.getUser(Long.MAX_VALUE);
         assertNull(user);
     }
     
     @Test
-    public void testGetExistingUserByUserIdentity() {
+    public void getExistingUserByUserIdentityTest() {
         User expected = users.get(0);
         for (User u : userManager.getUsers()) {
             System.out.println("DEBUG " + u.getUserIdentity().getUsername() + " " + u.getUserIdentity().getPassword());
         }
         User actual = userManager.getUserByUserIdentity(expected.getUserIdentity());
+
+        assertEquals(expected, actual);
         assertEquals(expected.getUserIdentity(), actual.getUserIdentity());
     }
 
     @Test(expected = InvalidUserIdentityException.class)
-    public void testGetNotExistingUserByUserIdentity() {
+    public void getNotExistingUserByUserIdentityTest() {
         userManager.getUserByUserIdentity(new UserIdentity("NotExistingUsername", "NotExistingPassword"));
     }
 
     @Test
-    public void testGetUsers() {
+    public void getUsersTest() {
         List<User> users = userManager.getUsers();
 
-        assertEquals(this.users.get(0).getUserIdentity().getUsername(), users.get(0).getUserIdentity().getUsername());
-        assertEquals(this.users.get(1).getUserIdentity().getUsername(), users.get(1).getUserIdentity().getUsername());
-        assertEquals(this.users.get(2).getUserIdentity().getUsername(), users.get(2).getUserIdentity().getUsername());
+        for (int i = 0; i < users.size(); i++) {
+            assertEquals(this.users.get(i), users.get(i));
+        }
     }
 }

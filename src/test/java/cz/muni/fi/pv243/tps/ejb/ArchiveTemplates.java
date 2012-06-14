@@ -20,6 +20,8 @@ public class ArchiveTemplates {
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource("jbossas-ds.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addClass(TransactionProxy.class)
+                .addClass(TransactionProxyable.class)
                 .addAsLibraries(DependencyResolvers
                         .use(MavenDependencyResolver.class)
                         .includeDependenciesFromPom("pom.xml")
