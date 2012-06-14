@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.security;
 
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
+import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.BaseAuthenticator;
 import org.jboss.seam.security.Credentials;
 import org.picketlink.idm.impl.api.PasswordCredential;
@@ -19,6 +20,9 @@ public class UserAuthenticator extends BaseAuthenticator {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private Messages messages;
+
     @Override
     public void authenticate() {
         UserIdentity userIdentity = new UserIdentity(
@@ -32,6 +36,7 @@ public class UserAuthenticator extends BaseAuthenticator {
             setStatus(AuthenticationStatus.SUCCESS);
             setUser(userIdentity);
         } catch (InvalidUserIdentityException e) {
+            messages.error("Authentication failed. Incorrect username or password.");
             setStatus(AuthenticationStatus.FAILURE);
         }
     }
