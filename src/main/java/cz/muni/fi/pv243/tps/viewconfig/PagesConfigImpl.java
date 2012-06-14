@@ -54,19 +54,24 @@ public class PagesConfigImpl implements PagesConfig, Serializable {
     }
 
     @Override
+    public String getCurrentViewId() {
+        return "pretty:";
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public String getViewId(String pd) {
         // If the definition is absolute, remove PagesConfig.
         String pageDefinition = pd.replaceFirst("^PagesConfig\\.", "");
         // Split pages definison to two pieces (e.g. "Users.NEW" to {"Users", "NEW"})
-        String[] splittedDefinition = pageDefinition.split("\\.", 2);
+        String[] splitDefinition = pageDefinition.split("\\.", 2);
         // Get enums in PagesConfig
         Class<?>[] enums = PagesConfig.class.getDeclaredClasses();
 
         Class<?> matchingEnum = null;
         // Iterate through all enums to find the matching enum
         for (Class<?> e : enums) {
-            if (e.getName().equals(PagesConfig.class.getName() + "$" + splittedDefinition[0])) {
+            if (e.getName().equals(PagesConfig.class.getName() + "$" + splitDefinition[0])) {
                 matchingEnum = e;
             }
         }
@@ -82,7 +87,7 @@ public class PagesConfigImpl implements PagesConfig, Serializable {
         Field matchingField = null;
         // Iterate through all fields to find the matching field
         for (Field f : fields) {
-            if (f.getName().equals(splittedDefinition[1])) {
+            if (f.getName().equals(splitDefinition[1])) {
                 matchingField = f;
             }
         }

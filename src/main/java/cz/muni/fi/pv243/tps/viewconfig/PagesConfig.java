@@ -17,6 +17,7 @@ public interface PagesConfig {
     public static final String DEFAULT_PAGE = PAGES_PREFIX + "index.xhtml";
 
     public String getViewId(PagesDefinition pd, Object... params);
+    public String getCurrentViewId();
     public String getViewId(String pd);
 
     public interface PagesDefinition {}
