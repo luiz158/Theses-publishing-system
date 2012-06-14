@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.exceptions;
 
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.faces.application.PrettyNavigationHandler;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.event.PreNavigateEvent;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;
@@ -31,34 +32,37 @@ public class ExceptionHandler {
     @Inject
     Messages messages;
 
+    @Inject
+    PagesConfig pagesConfig;
+
     public void handleAuthorizationException(@Handles CaughtException<AuthorizationException> e,
-                                                  FacesContext facesContext){
+                                             FacesContext facesContext){
         e.handled();
         messages.error("You don't have permission to access this page");
-        redirect("pretty:/WEB-INF/pages/denied.xhtml");
+        redirect(PagesConfig.Pages.ACCESS_DENIED);
     }
 
     public void handleInvalidEntityId(@Handles CaughtException<InvalidEntityIdException> e){
         e.handled();
-        redirect("pretty:/WEB-INF/pages/not_found.xhtml");
+        redirect(PagesConfig.Pages.NOT_FOUND);
     }
 
     public void handleInvalidApplicationAttempt (@Handles
-                                                  CaughtException<InvalidApplicationAttemptException> e){
+                                                 CaughtException<InvalidApplicationAttemptException> e){
         e.handled();
         messages.error("You've already applied to this topic");
-        redirect("pretty:");
+        redirect(PagesConfig.Pages.CURRENT_PAGE);
     }
 
     public void handleException(@Handles CaughtException<Throwable> e){
         e.handled();
         messages.error("Some unexpected error has occurred.");
-        redirect("pretty:/WEB-INF/pages/denied.xhtml");
+        redirect(PagesConfig.Pages.ACCESS_DENIED);
     }
 
-    private void redirect(String outcome){
+    private void redirect(PagesConfig.PagesDefinition page){
         facesContext.getApplication()
                 .getNavigationHandler()
-                .handleNavigation(facesContext, null, outcome);
+                .handleNavigation(facesContext, null, pagesConfig.getViewId(page));
     }
 }
