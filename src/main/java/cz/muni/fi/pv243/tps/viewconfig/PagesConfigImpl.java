@@ -19,14 +19,16 @@ public class PagesConfigImpl implements PagesConfig, Serializable {
     public String getViewId(PagesDefinition pd, Object... params) {
         Annotation viewPatternRaw = null;
         Annotation urlMappingRaw = null;
+        Annotation currentPageRaw = null;
         try {
             viewPatternRaw = pd.getClass().getField(((Enum) pd).name()).getAnnotation(ViewPattern.class);
             urlMappingRaw = pd.getClass().getField(((Enum) pd).name()).getAnnotation(UrlMapping.class);
+            currentPageRaw = pd.getClass().getField(((Enum) pd).name()).getAnnotation(CurrentPage.class);
         } catch (NoSuchFieldException e) {
             // Won't ever happen
         }
 
-        if (viewPatternRaw != null) {
+        if (viewPatternRaw != null && currentPageRaw == null) {
             ViewPattern viewPattern = (ViewPattern) viewPatternRaw;
             StringBuilder viewId = new StringBuilder(viewPattern.value()).append("?faces-redirect=true");
 
@@ -48,14 +50,12 @@ public class PagesConfigImpl implements PagesConfig, Serializable {
             }
 
             return viewId.toString() ;
+
+        } else if (currentPageRaw != null) {
+            return "pretty:";
         } else {
             return PagesConfig.DEFAULT_PAGE + "?faces-redirect=true";
         }
-    }
-
-    @Override
-    public String getCurrentViewId() {
-        return "pretty:";
     }
 
     @Override
