@@ -8,6 +8,12 @@
     </context-param>
 
     <error-page>
+        <error-code>500</error-code>
+        <!--suppress WebProperties (intellij idea rant) -->
+        <location>/500</location>
+    </error-page>
+
+    <error-page>
         <error-code>403</error-code>
         <!--suppress WebProperties (intellij idea rant) -->
         <location>/403</location>

@@ -41,6 +41,10 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/403")
         ACCESS_DENIED,
 
+        @ViewPattern(PAGES_PREFIX + "error.xhtml")
+        @UrlMapping(pattern = "/500")
+        INTERNAL_ERROR,
+
         @FacesRedirect
         @ViewPattern(PAGES_PREFIX + "login.xhtml")
         @UrlMapping(pattern = "/login")
