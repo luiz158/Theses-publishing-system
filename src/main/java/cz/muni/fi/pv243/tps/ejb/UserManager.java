@@ -4,6 +4,7 @@ import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.events.qualifiers.Create;
 import cz.muni.fi.pv243.tps.events.qualifiers.Update;
 import cz.muni.fi.pv243.tps.events.UserEvent;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 
@@ -39,7 +40,11 @@ public class UserManager {
     }
 
     public User getUser(Long id) {
-        return entityManager.find(User.class, id);
+        User user = entityManager.find(User.class, id);
+        if (user == null){
+            throw new InvalidEntityIdException();
+        }
+        return user;
     }
 
     public User getUserByUserIdentity(UserIdentity userIdentity) {

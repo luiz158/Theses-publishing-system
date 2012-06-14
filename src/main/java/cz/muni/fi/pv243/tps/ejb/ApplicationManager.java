@@ -8,6 +8,7 @@ import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
 import cz.muni.fi.pv243.tps.events.ApplicationEvent;
 import cz.muni.fi.pv243.tps.events.qualifiers.StatusChange;
 import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -37,7 +38,11 @@ public class ApplicationManager {
     private  Event<ApplicationEvent> statusEvent;
 
     public Application getApplication(Long id){
-        return entityManager.find(Application.class, id);
+        Application application = entityManager.find(Application.class, id);
+        if (application == null){
+            throw new InvalidEntityIdException();
+        }
+        return application;
     }
 
     public List<Application> getApplicationsByTopic(ThesisTopic topic) {
