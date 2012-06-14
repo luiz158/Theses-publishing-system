@@ -17,7 +17,6 @@ public interface PagesConfig {
     public static final String DEFAULT_PAGE = PAGES_PREFIX + "index.xhtml";
 
     public String getViewId(PagesDefinition pd, Object... params);
-    public String getCurrentViewId();
     public String getViewId(String pd);
 
     public interface PagesDefinition {}
@@ -28,6 +27,9 @@ public interface PagesConfig {
         @AccessDeniedView(PAGES_PREFIX + "denied.xhtml")
         @LoginView(PAGES_PREFIX + "login.xhtml")
         ALL,
+
+        @CurrentPage
+        CURRENT_PAGE,
 
         //@LoggedIn
         @ViewPattern(PAGES_PREFIX + "index.xhtml")
