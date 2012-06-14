@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.tps.ejb;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.events.UserEvent;
 import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationOperationException;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
 import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
@@ -147,10 +148,9 @@ public class UserManagerTest {
         assertEquals(expected, actual);
     }
 
-    @Test
+    @Test(expected = InvalidEntityIdException.class)
     public void getNotExistingUserTest() {
-        User user = userManager.getUser(Long.MAX_VALUE);
-        assertNull(user);
+        userManager.getUser(Long.MAX_VALUE);
     }
     
     @Test

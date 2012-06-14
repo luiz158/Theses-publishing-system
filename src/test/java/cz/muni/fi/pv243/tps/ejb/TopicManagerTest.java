@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.ejb;
 
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -41,6 +42,7 @@ public class TopicManagerTest {
                 .addClass(TopicManager.class)
                 .addClass(UserIdentity.class)
                 .addClass(Role.class)
+                .addPackage(InvalidEntityIdException.class.getPackage())
                 .addPackage(ThesisTopic.class.getPackage());
 
         System.out.println(archive.toString(true));
@@ -128,10 +130,9 @@ public class TopicManagerTest {
         assertEquals(expected, actual);
     }
 
-    @Test
+    @Test(expected = InvalidEntityIdException.class)
     public void getNotExistingTopicTest() {
-        ThesisTopic topic = topicManager.getTopic(Long.MAX_VALUE);
-        assertNull(topic);
+        topicManager.getTopic(Long.MAX_VALUE);
     }
 
     @Test
