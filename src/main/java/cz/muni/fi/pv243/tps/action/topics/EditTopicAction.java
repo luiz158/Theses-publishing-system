@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.tps.action.topics;
 import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
+import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
 
@@ -30,6 +31,7 @@ public class EditTopicAction implements Serializable {
     }
 
     @End
+    @IsSupervisorOf
     public String editTopic(){
         topicManager.editTopic(editedTopic);
         return "topics?faces-redirect=true";

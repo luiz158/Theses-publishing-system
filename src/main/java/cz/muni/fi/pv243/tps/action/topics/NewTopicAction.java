@@ -3,8 +3,11 @@ package cz.muni.fi.pv243.tps.action.topics;
 import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.seam.international.status.Message;
+import org.jboss.seam.international.status.Messages;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
@@ -24,6 +27,12 @@ public class NewTopicAction implements Serializable{
     @Inject
     private transient TopicManager topicManager;
 
+    @Inject
+    private Messages messages;
+
+    @Inject
+    private PagesConfig pagesConfig;
+
     private ThesisTopic newTopic;
 
     @Begin
@@ -34,7 +43,8 @@ public class NewTopicAction implements Serializable{
     @End
     public String createTopic(){
         topicManager.createTopic(newTopic);
-        return "topics?faces-redirect=true";
+        messages.info("Topic has been successfully created");
+        return pagesConfig.getViewId(PagesConfig.Topics.TOPICS);
     }
 
     @Produces

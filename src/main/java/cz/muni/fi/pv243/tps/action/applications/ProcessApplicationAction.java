@@ -4,6 +4,8 @@ import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
 import cz.muni.fi.pv243.tps.events.ApplicationEvent;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
+import org.jboss.seam.international.status.Messages;
 
 import javax.enterprise.event.Event;
 import javax.enterprise.util.AnnotationLiteral;
@@ -21,13 +23,21 @@ public class ProcessApplicationAction  implements Serializable {
     @Inject
     private transient ApplicationManager applicationManager;
 
+    @Inject
+    private PagesConfig pagesConfig;
+
+    @Inject
+    private Messages messages;
+
     public String accept(Application application){
         applicationManager.acceptApplication(application);
-        return "pretty:";
+        messages.info("Application has been accepted");
+        return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 
     public String decline(Application application){
         applicationManager.declineApplication(application);
-        return "pretty:";
+        messages.info("Application has been declined");
+        return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 }
