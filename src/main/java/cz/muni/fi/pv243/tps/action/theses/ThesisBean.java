@@ -12,6 +12,8 @@ import java.util.List;
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
+
+// TO-DO: this should be implemented
 @Named
 public class ThesisBean {
     @Inject
