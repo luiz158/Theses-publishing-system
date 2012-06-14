@@ -27,15 +27,15 @@ public class ApplicationManager {
 
     @Inject
     @Create
-    private Event<ApplicationEvent> createEvent;
+    Event<ApplicationEvent> createEvent;
 
     @Inject
     @Acceptation
-    private Event<ApplicationEvent> acceptationEvent;
+    Event<ApplicationEvent> acceptationEvent;
 
     @Inject
     @StatusChange
-    private  Event<ApplicationEvent> statusEvent;
+    Event<ApplicationEvent> statusEvent;
 
     public Application getApplication(Long id){
         Application application = entityManager.find(Application.class, id);

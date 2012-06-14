@@ -22,7 +22,7 @@ import java.util.List;
 public class ThesisManager implements Serializable{
 
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
 
     @Inject
     @Create

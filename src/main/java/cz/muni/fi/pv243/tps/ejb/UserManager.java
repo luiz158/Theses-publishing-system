@@ -23,15 +23,15 @@ import java.util.List;
 public class UserManager {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @Inject
     @Create
-    private Event<UserEvent> createEvent;
+    Event<UserEvent> createEvent;
 
     @Inject
     @Update
-    private Event<UserEvent> updateEvent;
+    Event<UserEvent> updateEvent;
 
     public void createUser(User user) {
         entityManager.persist(user);

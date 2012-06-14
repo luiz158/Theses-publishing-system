@@ -20,7 +20,7 @@ import java.util.List;
 @Stateless
 public class TopicManager {
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @Inject
     @Create
