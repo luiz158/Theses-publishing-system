@@ -2,8 +2,13 @@ package cz.muni.fi.pv243.tps.ejb;
 
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
+import cz.muni.fi.pv243.tps.events.ThesisEvent;
+import cz.muni.fi.pv243.tps.events.qualifiers.Create;
+import cz.muni.fi.pv243.tps.events.qualifiers.Update;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -19,6 +24,9 @@ public class ThesisManager implements Serializable{
     @PersistenceContext
     private EntityManager em;
 
+    @Inject
+    @Create
+    private Event<ThesisEvent> createEvent;
 
     public Thesis getThesis(Long id){
         return em.find(Thesis.class, id);
@@ -26,6 +34,7 @@ public class ThesisManager implements Serializable{
 
     public void createThesis(Thesis thesis){
         em.persist(thesis);
+        createEvent.fire(new ThesisEvent(thesis));
     }
 
     public void createThesisFromApplication(Application application){

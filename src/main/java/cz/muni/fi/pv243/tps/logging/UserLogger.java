@@ -13,6 +13,6 @@ public interface UserLogger {
     @Log @Message("User with id %d created.")
     void userCreated(Long userId);
 
-    @Log @Message("User with id %d updated")
+    @Log @Message("User with id %d updated.")
     void userEdited(Long userId);
 }

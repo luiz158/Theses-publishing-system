@@ -11,7 +11,6 @@ import javax.enterprise.event.Observes;
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
-@ApplicationScoped
 public class ApplicationObserver {
 
     public void applicationAccepted(@Observes @Acceptation ApplicationEvent event,
