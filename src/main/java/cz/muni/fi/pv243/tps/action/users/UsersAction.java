@@ -2,10 +2,13 @@ package cz.muni.fi.pv243.tps.action.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
+import cz.muni.fi.pv243.tps.security.Role;
 
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,5 +28,11 @@ public class UsersAction {
     @Model
     public List<User> getSupervisors() {
         return getUsers();
+    }
+
+    @Produces
+    @Named
+    public List<Role> getRoles() {
+        return Arrays.asList(Role.values());
     }
 }

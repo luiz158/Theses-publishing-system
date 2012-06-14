@@ -59,24 +59,27 @@ public class UserManagerTest {
     public void setUp() {
         User spvsr = new User();
         spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
+        spvsr.getUserIdentity().setRole(Role.SUPERVISOR);
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
+        User admin = new User();
+        admin.setUserIdentity(new UserIdentity("admin", "password"));
+        admin.getUserIdentity().setRole(Role.ADMIN);
+        admin.setName(new User.Name("Admin", "Prvni"));
+        admin.setEmail("admin@admin.cz");
+
         User student = new User();
         student.setUserIdentity(new UserIdentity("student", "password"));
-        student.setName(new User.Name("Student", "Prvni"));
+        student.getUserIdentity().setRole(Role.STUDENT);
+        student.setName(new User.Name("Student", "Druhy"));
         student.setEmail("stud@muni.cz");
-
-        User student2 = new User();
-        student2.setUserIdentity(new UserIdentity("student2", "password"));
-        student2.setName(new User.Name("Student", "Druhy"));
-        student2.setEmail("stud2@muni.cz");
 
         try {
             transaction.begin();
             entityManager.persist(spvsr);
+            entityManager.persist(admin);
             entityManager.persist(student);
-            entityManager.persist(student2);
             transaction.commit();
         } catch (Exception e) {
             try {
@@ -86,8 +89,8 @@ public class UserManagerTest {
         }
 
         users.add(0, spvsr);
-        users.add(1, student);
-        users.add(2, student2);
+        users.add(1, admin);
+        users.add(2, student);
     }
 
     @After

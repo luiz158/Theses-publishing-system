@@ -4,6 +4,7 @@ import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
+import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 
 import javax.annotation.PostConstruct;
@@ -27,22 +28,25 @@ public class Demo {
         // Demo users
         User spvsr = new User();
         spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
+        spvsr.getUserIdentity().setRole(Role.SUPERVISOR);
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
+        User admin = new User();
+        admin.setUserIdentity(new UserIdentity("admin", "password"));
+        admin.getUserIdentity().setRole(Role.ADMIN);
+        admin.setName(new User.Name("Admin", "Prvni"));
+        admin.setEmail("admin@admin.cz");
+
         User student = new User();
         student.setUserIdentity(new UserIdentity("student", "password"));
-        student.setName(new User.Name("Studen", "Prvni"));
+        student.getUserIdentity().setRole(Role.STUDENT);
+        student.setName(new User.Name("Student", "Druhy"));
         student.setEmail("stud@muni.cz");
 
-        User student2 = new User();
-        student2.setUserIdentity(new UserIdentity("student2", "password"));
-        student2.setName(new User.Name("Student", "Druhy"));
-        student2.setEmail("stud2@muni.cz");
-
         em.persist(spvsr);
+        em.persist(admin);
         em.persist(student);
-        em.persist(student2);
 
         // Theses topics
         ThesisTopic topic = new ThesisTopic();
@@ -55,14 +59,14 @@ public class Demo {
 
         // Theses
         Thesis thesis = new Thesis();
-        thesis.setWorker(student);
+        thesis.setWorker(admin);
         thesis.setTopic(topic);
 
         em.persist(thesis);
 
         // Theses applications
         Application application = new Application();
-        application.setApplicant(student2);
+        application.setApplicant(student);
         application.setTopic(topic);
 
         em.persist(application);
