@@ -6,16 +6,22 @@ import org.jboss.seam.faces.security.AccessDeniedView;
 import org.jboss.seam.faces.security.LoginView;
 import org.jboss.seam.faces.view.config.ViewConfig;
 import org.jboss.seam.faces.view.config.ViewPattern;
-import org.jboss.seam.security.annotations.LoggedIn;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @ViewConfig
 public interface PagesConfig {
-    public static final String PAGES_PREFIX = "/WEB-INF/pages/";
 
-    static enum Pages {
+    public static final String PAGES_PREFIX = "/WEB-INF/pages/";
+    public static final String DEFAULT_PAGE = PAGES_PREFIX + "index.xhtml";
+
+    public String getViewId(PagesDefinition pd, Object... params);
+    public String getViewId(String pd);
+
+    public interface PagesDefinition {}
+
+    public static enum Pages implements PagesDefinition {
 
         @ViewPattern("/*")
         @AccessDeniedView(PAGES_PREFIX + "denied.xhtml")
@@ -45,7 +51,7 @@ public interface PagesConfig {
         LOG_OUT,
     }
 
-    static enum Topics {
+    public static enum Topics implements PagesDefinition {
         @ViewPattern(PAGES_PREFIX + "topics/topics.xhtml")
         @UrlMapping(pattern = "/topics")
         TOPICS,
@@ -63,7 +69,7 @@ public interface PagesConfig {
         EDIT,
     }
 
-    static enum Users {
+    public static enum Users implements PagesDefinition {
         @ViewPattern(PAGES_PREFIX + "users/users.xhtml")
         @UrlMapping(pattern = "/users")
         USERS,

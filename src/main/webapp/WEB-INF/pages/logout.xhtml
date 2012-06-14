@@ -18,7 +18,7 @@
     <ui:define name="content">
         <h:panelGroup rendered="#{!identity.loggedIn}">
             <h3>You have been successfully logged out.</h3>
-            <p>Click <h:link outcome="/WEB-INF/pages/index.xhtml">here</h:link> to get back to the front page or wait 5 seconds.</p>
+            <p>Click <h:link outcome="#{pagesConfig.getViewId('Pages.INDEX')}">here</h:link> to get back to the front page or wait 5 seconds.</p>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

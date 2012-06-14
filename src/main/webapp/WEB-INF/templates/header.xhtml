@@ -6,15 +6,15 @@
     <h1 id="header-title">Theses publishing system</h1>
 
     <ul id="menu">
-        <li><h:link outcome="/WEB-INF/pages/index.xhtml">Home</h:link></li>
-        <li><h:link outcome="/WEB-INF/pages/topics/topics.xhtml">Thesis topics</h:link></li>
-        <li><h:link outcome="/WEB-INF/pages/users/users.xhtml">Users</h:link></li>
+        <li><h:link outcome="#{pagesConfig.getViewId('Pages.INDEX')}">Home</h:link></li>
+        <li><h:link outcome="#{pagesConfig.getViewId('Topics.TOPICS')}">Thesis topics</h:link></li>
+        <li><h:link outcome="#{pagesConfig.getViewId('Users.USERS')}">Users</h:link></li>
         <h:panelGroup rendered="#{!identity.loggedIn}">
-            <li><h:link outcome="/WEB-INF/pages/users/new.xhtml">Sign up</h:link></li>
-            <li><h:link outcome="/WEB-INF/pages/login.xhtml">Log in</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Users.NEW')}">Sign up</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_IN')}">Log in</h:link></li>
         </h:panelGroup>
         <h:panelGroup rendered="#{identity.loggedIn}">
-            <li><h:link outcome="/WEB-INF/pages/logout.xhtml">Logout</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_OUT')}">Logout</h:link></li>
         </h:panelGroup>
     </ul>
 </ui:composition>

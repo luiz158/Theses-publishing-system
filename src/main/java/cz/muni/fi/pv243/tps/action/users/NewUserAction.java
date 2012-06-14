@@ -24,6 +24,9 @@ public class NewUserAction {
     @Inject
     private Messages messages;
 
+    @Inject
+    private PagesConfig pagesConfig;
+
     private User newUser;
 
     @PostConstruct
@@ -36,7 +39,7 @@ public class NewUserAction {
     public String create() {
         userManager.createUser(newUser);
         messages.info("Your account has been successfully created.");
-        return PagesConfig.PAGES_PREFIX + "index.xhtml?faces-redirect=true";
+        return pagesConfig.getViewId(PagesConfig.Pages.INDEX);
     }
 
     @Produces

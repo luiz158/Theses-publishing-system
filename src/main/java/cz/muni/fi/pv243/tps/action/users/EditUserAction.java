@@ -29,6 +29,9 @@ public class EditUserAction implements Serializable {
     @Inject
     private Messages messages;
 
+    @Inject
+    private PagesConfig pagesConfig;
+
     private User editedUser;
 
     @Begin
@@ -40,7 +43,7 @@ public class EditUserAction implements Serializable {
     public String edit() {
         userManager.editUser(editedUser);
         messages.info("Your profile has been successfully updated.");
-        return PagesConfig.PAGES_PREFIX + "users/show.xhtml?id=" + editedUser.getId() + "&faces-redirect=true";
+        return pagesConfig.getViewId(PagesConfig.Users.SHOW, editedUser.getId());
     }
 
     @Produces
