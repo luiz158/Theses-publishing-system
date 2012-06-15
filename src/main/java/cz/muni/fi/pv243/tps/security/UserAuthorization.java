@@ -3,16 +3,16 @@ package cz.muni.fi.pv243.tps.security;
 import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
-import cz.muni.fi.pv243.tps.ejb.UserManager;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.annotations.Secures;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
+@Named
 @ApplicationScoped
 public class UserAuthorization {
 
@@ -70,5 +70,9 @@ public class UserAuthorization {
         UserIdentity editedUser = user.getUserIdentity();
 
         return currentUser.equals(editedUser);
+    }
+
+    public boolean hasRole(Identity identity, String role) {
+        return role.equals(((UserIdentity) identity.getUser()).getRole().toString());
     }
 }
