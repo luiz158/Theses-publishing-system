@@ -33,18 +33,17 @@ public class UserAuthorization {
     @Secures
     @IsSupervisorOf
     public boolean isSupervisorOf(Identity identity, @Current ThesisTopic thesisTopic) {
-        if (identity.isLoggedIn()) {
+        if (!identity.isLoggedIn()) {
             return false;
         }
 
         if (isAdmin(identity)) {
             return true;
         }
-
         UserIdentity currentUser = (UserIdentity) identity.getUser();
         UserIdentity supervisor = thesisTopic.getSupervisor().getUserIdentity();
 
-        return currentUser.getUsername().equals(supervisor.getUsername());
+        return currentUser.equals(supervisor);
     }
 
     @Secures
@@ -61,6 +60,6 @@ public class UserAuthorization {
         UserIdentity currentUser = (UserIdentity) identity.getUser();
         UserIdentity editedUser = user.getUserIdentity();
 
-        return currentUser.getUsername().equals(editedUser.getUsername());
+        return currentUser.equals(editedUser);
     }
 }
