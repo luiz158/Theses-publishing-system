@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.tps.exceptions;
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.faces.application.PrettyNavigationHandler;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
+import org.jboss.logging.Logger;
 import org.jboss.seam.faces.event.PreNavigateEvent;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;
@@ -33,6 +34,9 @@ public class ExceptionHandler {
     Messages messages;
 
     @Inject
+    Logger logger;
+
+    @Inject
     PagesConfig pagesConfig;
 
     public void handleAuthorizationException(@Handles CaughtException<AuthorizationException> e,
@@ -55,9 +59,10 @@ public class ExceptionHandler {
     }
 
     public void handleException(@Handles CaughtException<Throwable> e){
+        logger.error(e);
         e.handled();
         messages.error("Some unexpected error has occurred.");
-        redirect(PagesConfig.Pages.ACCESS_DENIED);
+        redirect(PagesConfig.Pages.INTERNAL_ERROR);
     }
 
     private void redirect(PagesConfig.PagesDefinition page){
