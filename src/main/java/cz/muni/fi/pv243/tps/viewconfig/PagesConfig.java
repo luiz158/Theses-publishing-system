@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.tps.viewconfig;
 
+import cz.muni.fi.pv243.tps.security.Supervisor;
 import org.jboss.seam.faces.rewrite.FacesRedirect;
 import org.jboss.seam.faces.rewrite.UrlMapping;
 import org.jboss.seam.faces.security.AccessDeniedView;
@@ -67,6 +68,7 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/topic/#{id}")
         SHOW,
 
+        @Supervisor
         @ViewPattern(PAGES_PREFIX + "topics/new.xhtml")
         @UrlMapping(pattern = "/topic/new")
         NEW,

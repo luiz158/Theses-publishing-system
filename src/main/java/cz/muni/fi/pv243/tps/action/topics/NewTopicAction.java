@@ -3,6 +3,8 @@ package cz.muni.fi.pv243.tps.action.topics;
 import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
+import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.security.Supervisor;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
@@ -41,6 +43,7 @@ public class NewTopicAction implements Serializable{
     }
 
     @End
+    @Supervisor
     public String createTopic(){
         topicManager.createTopic(newTopic);
         messages.info("Topic has been successfully created");
@@ -49,7 +52,6 @@ public class NewTopicAction implements Serializable{
 
     @Produces
     @Named
-    @Current
     public ThesisTopic newTopic(){
         return newTopic;
     }

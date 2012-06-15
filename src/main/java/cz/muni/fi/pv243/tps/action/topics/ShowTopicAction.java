@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.tps.action.topics;
 
+import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
@@ -32,13 +33,13 @@ public class ShowTopicAction implements Serializable {
 
     @Produces
     @Named
-    public ThesisTopic getTopic(){
-        return topic;
+    public List<Application> getTopicApplications(){
+        return  applicationManager.getApplicationsByTopic(topic);
     }
 
     @Produces
     @Named
-    public List<Application> getTopicApplications(){
-        return applicationManager.getApplicationsByTopic(topic);
+    public ThesisTopic getTopic(){
+        return topic;
     }
 }

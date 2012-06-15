@@ -4,8 +4,10 @@ import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.seam.international.status.Messages;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
@@ -23,24 +25,37 @@ public class EditTopicAction implements Serializable {
     @Inject
     private transient TopicManager topicManager;
 
+//    @Inject
+//    private CurrentTopicProducer topicProducer;
+
+    @Inject
+    private Messages messages;
+
+    @Inject
+    private PagesConfig pagesConfig;
+
     private ThesisTopic editedTopic;
 
     @Begin
-    public void setTopicById(String id){
+    public void setTopicById(String id) {
+//        topicProducer.setTopicById(Long.parseLong(id));
         editedTopic = topicManager.getTopic(Long.parseLong(id));
     }
 
     @End
     @IsSupervisorOf
-    public String editTopic(){
+    public String editTopic() {
+//        topicManager.editTopic(topicProducer.getTopic());
         topicManager.editTopic(editedTopic);
-        return "topics?faces-redirect=true";
+        messages.info("Topic has been successfully edited");
+        return pagesConfig.getViewId(PagesConfig.Topics.TOPICS);
     }
 
     @Produces
     @Named
-    @Current
-    public ThesisTopic getEditedTopic(){
+//    @Current
+    public ThesisTopic getEditedTopic() {
         return editedTopic;
+//        return topicProducer.getTopic();
     }
 }

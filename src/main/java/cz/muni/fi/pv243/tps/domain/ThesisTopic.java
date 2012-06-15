@@ -32,7 +32,7 @@ public class ThesisTopic  implements Serializable {
     private String description;
 
     @Min(1)
-    private int capacity;
+    private Integer capacity = 1;
 
     public ThesisTopic() {
     }

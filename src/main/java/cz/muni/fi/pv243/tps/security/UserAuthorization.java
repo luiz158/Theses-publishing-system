@@ -26,13 +26,22 @@ public class UserAuthorization {
     @Secures
     @Supervisor
     public boolean  isSupervisor(Identity identity){
+        if (isAdmin(identity)){
+            return true;
+        }
+
         return identity.isLoggedIn()
                 && Role.SUPERVISOR.equals(((UserIdentity) identity.getUser()).getRole());
     }
 
+
+    //TODO: FIX ME
     @Secures
     @IsSupervisorOf
     public boolean isSupervisorOf(Identity identity, @Current ThesisTopic thesisTopic) {
+        System.err.println("DUMP");
+        System.err.println("TOPIC: " + thesisTopic);
+        System.err.println("IDENTITY: " + identity);
         if (!identity.isLoggedIn()) {
             return false;
         }

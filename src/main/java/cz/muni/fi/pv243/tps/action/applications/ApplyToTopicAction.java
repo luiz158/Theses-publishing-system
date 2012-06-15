@@ -47,6 +47,6 @@ public class ApplyToTopicAction implements Serializable {
         User user = userManager.getUserByUserIdentity((UserIdentity) identity.getUser());
         applicationManager.apply(new User(1L), topic);
         messages.info("You've successfully applied to this topic");
-        return "pretty:";
+        return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 }
