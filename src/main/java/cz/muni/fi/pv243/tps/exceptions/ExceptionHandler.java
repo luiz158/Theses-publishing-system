@@ -1,23 +1,15 @@
 package cz.muni.fi.pv243.tps.exceptions;
 
-import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.pretty.faces.application.PrettyNavigationHandler;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
-import org.jboss.logging.Logger;
-import org.jboss.seam.faces.event.PreNavigateEvent;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.solder.exception.control.CaughtException;
-import org.jboss.solder.exception.control.ExceptionHandled;
 import org.jboss.solder.exception.control.Handles;
 import org.jboss.solder.exception.control.HandlesExceptions;
-import org.jboss.solder.servlet.exception.handler.SendHttpError;
+import org.jboss.solder.logging.Logger;
 
-import javax.enterprise.event.Observes;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import java.io.IOException;
 
 /**
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.

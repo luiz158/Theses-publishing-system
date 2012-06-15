@@ -39,9 +39,6 @@ public class UserAuthorization {
     @Secures
     @IsSupervisorOf
     public boolean isSupervisorOf(Identity identity, @Current ThesisTopic thesisTopic) {
-        System.err.println("DUMP");
-        System.err.println("TOPIC: " + thesisTopic);
-        System.err.println("IDENTITY: " + identity);
         if (!identity.isLoggedIn()) {
             return false;
         }
