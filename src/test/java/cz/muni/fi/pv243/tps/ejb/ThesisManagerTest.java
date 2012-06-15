@@ -1,8 +1,10 @@
 package cz.muni.fi.pv243.tps.ejb;
 
+import cz.muni.fi.pv243.tps.domain.Application;
+import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
-import cz.muni.fi.pv243.tps.events.TopicEvent;
+import cz.muni.fi.pv243.tps.events.ThesisEvent;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
@@ -17,7 +19,7 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.*;
+import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +29,9 @@ import static org.junit.Assert.*;
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @RunWith(Arquillian.class)
-public class TopicManagerTest {
+public class ThesisManagerTest {
     @Inject
-    private TopicManager topicManager;
+    private ThesisManager thesisManager;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -40,18 +42,18 @@ public class TopicManagerTest {
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ArchiveTemplates.WEB_ARCHIVE
-                .addClass(TopicManager.class)
+                .addClass(ThesisManager.class)
                 .addClass(UserIdentity.class)
                 .addClass(Role.class)
-                .addClass(TopicEvent.class)
+                .addClass(ThesisEvent.class)
                 .addPackage(InvalidEntityIdException.class.getPackage())
-                .addPackage(ThesisTopic.class.getPackage());
+                .addPackage(Thesis.class.getPackage());
 
         System.out.println(archive.toString(true));
         return archive;
     }
 
-    private final List<ThesisTopic> topics = new ArrayList<ThesisTopic>();
+    private final List<Thesis> theses = new ArrayList<Thesis>();
 
     @Before
     public void setUp() {
@@ -61,45 +63,47 @@ public class TopicManagerTest {
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
+        final User student = new User();
+        student.setUserIdentity(new UserIdentity("student", "password"));
+        student.getUserIdentity().setRole(Role.STUDENT);
+        student.setName(new User.Name("Student", "Druhy"));
+        student.setEmail("student@email.com");
+
+        final ThesisTopic topic = new ThesisTopic();
+        topic.setCapacity(1);
+        topic.setDescription("Thesis topic 1 description");
+        topic.setTitle("Topic1");
+        topic.setSupervisor(spvsr);
+
         new TransactionProxy(transaction, new TransactionProxyable() {
             @Override
             public Object execute() {
                 entityManager.persist(spvsr);
+                entityManager.persist(student);
+                entityManager.persist(topic);
                 return null;
             }
         }).execute();
 
-        final ThesisTopic topic1 = new ThesisTopic();
-        topic1.setCapacity(1);
-        topic1.setDescription("Thesis topic 1 description");
-        topic1.setTitle("Topic1");
-        topic1.setSupervisor(spvsr);
+        final Thesis thesis1 = new Thesis();
+        thesis1.setTopic(topic);
+        thesis1.setWorker(student);
 
-        final ThesisTopic topic2 = new ThesisTopic();
-        topic2.setCapacity(1);
-        topic2.setDescription("Thesis topic 2 description");
-        topic2.setTitle("Topic2");
-        topic2.setSupervisor(spvsr);
-
-        final ThesisTopic topic3 = new ThesisTopic();
-        topic3.setCapacity(1);
-        topic3.setDescription("Thesis topic 3 description");
-        topic3.setTitle("Topic3");
-        topic3.setSupervisor(spvsr);
+        final Thesis thesis2 = new Thesis();
+        thesis2.setTopic(topic);
+        thesis2.setWorker(student);
 
         new TransactionProxy(transaction, new TransactionProxyable() {
             @Override
             public Object execute() {
-                entityManager.persist(topic1);
-                entityManager.persist(topic2);
-                entityManager.persist(topic3);
+                entityManager.persist(thesis1);
+                entityManager.persist(thesis2);
                 return null;
             }
         }).execute();
 
-        topics.add(0, topic1);
-        topics.add(1, topic2);
-        topics.add(2, topic3);
+        theses.add(0, thesis1);
+        theses.add(1, thesis2);
     }
 
     @After
@@ -107,6 +111,12 @@ public class TopicManagerTest {
         new TransactionProxy(transaction, new TransactionProxyable() {
             @Override
             public Object execute() {
+                List<Thesis> theses = entityManager
+                        .createQuery("SELECT t FROM Thesis t", Thesis.class)
+                        .getResultList();
+                for (Thesis t : theses) {
+                    entityManager.remove(t);
+                }
                 List<ThesisTopic> topics = entityManager
                         .createQuery("SELECT t FROM ThesisTopic t", ThesisTopic.class)
                         .getResultList();
@@ -125,60 +135,59 @@ public class TopicManagerTest {
     }
 
     @Test
-    public void getExistingTopicTest() {
-        ThesisTopic expected = topics.get(0);
-        ThesisTopic actual = topicManager.getTopic(expected.getId());
+    public void getExistingThesisTest() {
+        Thesis expected = theses.get(0);
+        Thesis actual = thesisManager.getThesis(expected.getId());
 
         assertEquals(expected, actual);
     }
 
     @Test(expected = InvalidEntityIdException.class)
-    public void getNotExistingTopicTest() {
-        topicManager.getTopic(Long.MAX_VALUE);
+    public void getNotExistiongThesisTest() {
+        thesisManager.getThesis(Long.MAX_VALUE);
+    }
+
+    @Test
+    public void createThesisTest() {
+        final Thesis expected = new Thesis();
+        expected.setTopic(theses.get(0).getTopic());
+        expected.setWorker(theses.get(0).getWorker());
+        thesisManager.createThesis(expected);
+
+        final Thesis actual = (Thesis) new TransactionProxy(transaction, new TransactionProxyable() {
+            @Override
+            public Object execute() {
+                return entityManager.find(Thesis.class, expected.getId());
+            }
+        }).execute();
+
+        assertEquals(expected, actual);
     }
 
     @Test
     public void getTopicsTest() {
-        List<ThesisTopic> topics = topicManager.getTopics();
+        List<Thesis> theses = thesisManager.getTheses();
 
-        for (int i = 0; i < topics.size(); i++) {
-            assertEquals(this.topics.get(i), topics.get(i));
+        for (int i = 0; i < theses.size(); i++) {
+            assertEquals(this.theses.get(i), theses.get(i));
         }
     }
 
     @Test
-    public void createTopicTest() {
-        final ThesisTopic expected = new ThesisTopic();
-        expected.setCapacity(1);
-        expected.setDescription("Thesis topic 4 description");
-        expected.setTitle("Topic4");
-        expected.setSupervisor(new User(4L));
+    public void getTopicsByTopicIdTest() {
+        Long topicId = this.theses.get(0).getTopic().getId();
+        List<Thesis> theses = thesisManager.getThesesByTopicId(topicId);
 
-        topicManager.createTopic(expected);
+        List<Thesis> thesesWithGivenTopicId = new ArrayList<Thesis>();
 
-        final ThesisTopic actual = (ThesisTopic) new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                return entityManager.find(ThesisTopic.class, expected.getId());
+        for (Thesis t : this.theses) {
+            if (t.getTopic().getId().equals(topicId)) {
+                thesesWithGivenTopicId.add(t);
             }
-        }).execute();
+        }
 
-        assertEquals(expected, actual);
+        for (int i = 0; i < theses.size(); i++) {
+            assertEquals(thesesWithGivenTopicId.get(i), theses.get(i));
+        }
     }
-
-    @Test
-    public void editTopicTest() {
-        final ThesisTopic expected = topics.get(0);
-        topicManager.editTopic(expected);
-
-        final ThesisTopic actual = (ThesisTopic) new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                return entityManager.find(ThesisTopic.class, expected.getId());
-            }
-        }).execute();
-
-        assertEquals(expected, actual);
-    }
-
 }

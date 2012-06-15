@@ -5,6 +5,7 @@ import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.events.ThesisEvent;
 import cz.muni.fi.pv243.tps.events.qualifiers.Create;
 import cz.muni.fi.pv243.tps.events.qualifiers.Update;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -29,7 +30,11 @@ public class ThesisManager implements Serializable{
     private Event<ThesisEvent> createEvent;
 
     public Thesis getThesis(Long id){
-        return em.find(Thesis.class, id);
+        Thesis thesis = em.find(Thesis.class, id);
+        if (thesis == null) {
+            throw new InvalidEntityIdException();
+        }
+        return thesis;
     }
 
     public void createThesis(Thesis thesis){

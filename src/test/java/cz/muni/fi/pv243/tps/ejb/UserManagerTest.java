@@ -48,7 +48,7 @@ public class UserManagerTest {
                 .addClass(Role.class)
                 .addPackage(User.class.getPackage())
                 .addPackage(InvalidApplicationOperationException.class.getPackage())
-                .addPackage(UserEvent.class.getPackage());
+                .addClass(UserEvent.class);
 
         System.out.println(archive.toString(true));
         return archive;
