@@ -14,7 +14,6 @@
     <ui:define name="pageTitle">Theses publishing system - Showing profile of <h:outputText value="#{user.userIdentity.username}"/></ui:define>
 
     <ui:define name="content">
-        <h:messages/>
         <h2>Profile of user <h:outputText value="#{user.userIdentity.username}"/></h2>
 
         <ul>
@@ -23,6 +22,10 @@
             <li>Username - <h:outputText value="#{user.userIdentity.username}"/></li>
             <li>Email - <h:outputText value="#{user.email}"/></li>
         </ul>
+
+        <h:panelGroup rendered="#{userAuthorization.isCurrentUser(identity, user)}">
+            <h:link outcome="#{pagesConfig.getViewId('Users.EDIT')}&amp;id=#{_userid}">Edit profile</h:link>
+        </h:panelGroup>
 
     </ui:define>
 </ui:composition>

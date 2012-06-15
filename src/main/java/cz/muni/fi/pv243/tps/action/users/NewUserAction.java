@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.tps.action.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
+import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;
@@ -37,6 +38,7 @@ public class NewUserAction {
     }
 
     public String create() {
+        newUser.getUserIdentity().setRole(Role.STUDENT);
         userManager.createUser(newUser);
         messages.info("Your account has been successfully created.");
         return pagesConfig.getViewId(PagesConfig.Pages.INDEX);

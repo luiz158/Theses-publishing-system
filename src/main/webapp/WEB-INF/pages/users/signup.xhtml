@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:s="http://jboss.org/seam/faces"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="pageTitle">Theses publishing system - Sing up</ui:define>
+
+    <ui:define name="content">
+        <h2>Sign up</h2>
+
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Username" for="username"/>
+                <h:inputText id="username" value="#{newUser.userIdentity.username}" />
+                <h:outputLabel value="First name" for="firstName"/>
+                <h:inputText id="firstName" value="#{newUser.name.firstName}" />
+                <h:outputLabel value="Last name" for="lastName"/>
+                <h:inputText id="lastName" value="#{newUser.name.lastName}" />
+                <h:outputLabel value="Email" for="email"/>
+                <h:inputText id="email" value="#{newUser.email}" />
+                <h:outputLabel value="Repeat email" for="emailRepeat"/>
+                <h:inputText id="emailRepeat"/>
+                <h:outputLabel value="Password" for="password" />
+                <h:inputSecret id="password" value="#{newUser.userIdentity.password}"/>
+                <h:outputLabel value="Repeat password" for="passwordRepeat" />
+                <h:inputSecret id="passwordRepeat"/>
+            </h:panelGrid>
+
+            <s:validateForm validatorId="passwordMatchValidator"/>
+            <s:validateForm validatorId="emailMatchValidator"/>
+
+            <h:commandButton action="#{newUserAction.create}" value="Sign up" />
+        </h:form>
+    </ui:define>
+</ui:composition>

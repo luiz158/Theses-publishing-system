@@ -10,7 +10,7 @@
         <li><h:link outcome="#{pagesConfig.getViewId('Topics.TOPICS')}">Thesis topics</h:link></li>
         <li><h:link outcome="#{pagesConfig.getViewId('Users.USERS')}">Users</h:link></li>
         <h:panelGroup rendered="#{!identity.loggedIn}">
-            <li><h:link outcome="#{pagesConfig.getViewId('Users.NEW')}">Sign up</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Users.SIGN_UP')}">Sign up</h:link></li>
             <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_IN')}">Log in</h:link></li>
         </h:panelGroup>
         <h:panelGroup rendered="#{identity.loggedIn}">

@@ -87,9 +87,9 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/user/#{id}")
         SHOW,
 
-        @ViewPattern(PAGES_PREFIX + "users/new.xhtml")
-        @UrlMapping(pattern = "/user/new")
-        NEW,
+        @ViewPattern(PAGES_PREFIX + "users/signup.xhtml")
+        @UrlMapping(pattern = "/user/signup")
+        SIGN_UP,
 
         @ViewPattern(PAGES_PREFIX + "users/edit.xhtml")
         @UrlMapping(pattern = "/user/#{id}/edit")

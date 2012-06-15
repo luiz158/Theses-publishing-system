@@ -16,7 +16,11 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Username</f:facet>
-                <p><h:outputText value="#{_user.userIdentity.username}"/></p>
+                <p>
+                    <h:link outcome="#{pagesConfig.getViewId('Users.SHOW')}&amp;id=#{_user.id}">
+                        <h:outputText value="#{_user.userIdentity.username}"/>
+                    </h:link>
+                </p>
             </h:column>
             <h:column>
                 <f:facet name="header">Email</f:facet>
@@ -26,13 +30,10 @@
                 <f:facet name="header">Name</f:facet>
                 <p><h:outputText value="#{_user.name}"/></p>
             </h:column>
-            <h:column>
+            <h:column rendered="#{userAuthorization.hasRole(identity, 'ADMIN')}">
                 <f:facet name="header">Action</f:facet>
                 <div>
-                    <h:link outcome="/WEB-INF/pages/users/show.xhtml?id=#{_user.id}">Show</h:link>
-                </div>
-                <div>
-                    <h:link outcome="/WEB-INF/pages/users/edit.xhtml?id=#{_user.id}">Edit</h:link>
+                    <h:link outcome="#{pagesConfig.getViewId('Users.EDIT')}&amp;id=#{_user.id}">Edit</h:link>
                 </div>
             </h:column>
         </h:dataTable>

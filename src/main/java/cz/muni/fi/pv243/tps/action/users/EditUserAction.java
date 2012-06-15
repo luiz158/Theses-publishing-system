@@ -4,6 +4,7 @@ import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.Admin;
+import cz.muni.fi.pv243.tps.security.IsCurrentUser;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
@@ -40,9 +41,10 @@ public class EditUserAction implements Serializable {
     }
 
     @End
+    @IsCurrentUser
     public String edit() {
         userManager.editUser(editedUser);
-        messages.info("Your profile has been successfully updated.");
+        messages.info("Profile of user with id {0} has been successfully updated.", editedUser.getId());
         return pagesConfig.getViewId(PagesConfig.Users.SHOW, editedUser.getId());
     }
 
