@@ -58,7 +58,7 @@ public class UserAuthorization {
     @Secures
     @IsCurrentUser
     public boolean isCurrentUser(Identity identity, @Current User user) {
-        if (identity.isLoggedIn()) {
+        if (!identity.isLoggedIn()) {
             return false;
         }
 
