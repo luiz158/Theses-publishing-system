@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <h2>Profile of user <h:outputText value="#{user.userIdentity.username}"/></h2>
+
+    <ul>
+        <li>Id - <h:outputText value="#{user.id}"/></li>
+        <li>Name - <h:outputText value="#{user.name}"/></li>
+        <li>Username - <h:outputText value="#{user.userIdentity.username}"/></li>
+        <li>Email - <h:outputText value="#{user.email}"/></li>
+    </ul>
+
+    <h3>Applications</h3>
+    <h:dataTable value="#{usersAction.getUsersApplications(user)}" var="_application">
+        <h:column>
+            <f:facet name="header">Topic title</f:facet>
+            <h:outputText value="#{_application.topic.title}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Topic supervisor</f:facet>
+            <h:outputText value="#{_application.topic.supervisor.name}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Application status</f:facet>
+            <h:outputText value="#{_application.status}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h3>Theses</h3>
+    <h:dataTable value="#{usersAction.getUsersTheses(user)}" var="_thesis">
+        <h:column>
+            <f:facet name="header">Topic title</f:facet>
+            <h:outputText value="#{_thesis.topic.title}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Topic supervisor</f:facet>
+            <h:outputText value="#{_thesis.topic.supervisor.name}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Thesis status</f:facet>
+            <h:outputText value="#{_thesis.status}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h:panelGroup rendered="#{userAuthorization.isCurrentUser(identity, user)}">
+        <h3>Edit</h3>
+        <ul>
+            <li>
+                <h:link outcome="#{pagesConfig.getViewId('Users.EDIT_PASSWORD')}&amp;id=#{user.id}">Change password</h:link>
+            </li>
+            <li>
+                <h:link outcome="#{pagesConfig.getViewId('Users.EDIT_EMAIL')}&amp;id=#{user.id}">Change email</h:link>
+            </li>
+        </ul>
+    </h:panelGroup>
+</ui:composition>

@@ -2,18 +2,16 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:s="http://jboss.org/seam/faces"
-                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:s="http://jboss.org/seam/faces" xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/default.xhtml">
 
     <f:metadata>
-        <f:viewParam name="id" value="#{_userid}"/>
-        <s:viewAction action="#{showUserAction.setUserById(_userid)}"/>
+        <s:viewAction action="#{showUserAction.setUserByUserIdentity}"/>
     </f:metadata>
 
     <ui:define name="pageTitle">Theses publishing system - Showing profile of <h:outputText value="#{user.userIdentity.username}"/></ui:define>
 
     <ui:define name="content">
-        <ui:decorate template="/WEB-INF/pages/users/_show.xhtml" />
+        <ui:decorate template="/WEB-INF/pages/users/_show.xhtml"/>
     </ui:define>
 </ui:composition>

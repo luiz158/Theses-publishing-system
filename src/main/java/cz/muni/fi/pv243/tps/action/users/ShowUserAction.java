@@ -2,6 +2,8 @@ package cz.muni.fi.pv243.tps.action.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
+import cz.muni.fi.pv243.tps.security.UserIdentity;
+import org.jboss.seam.security.Identity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
@@ -20,10 +22,17 @@ public class ShowUserAction implements Serializable {
     @Inject
     private transient UserManager userManager;
 
+    @Inject
+    private Identity identity;
+
     private User user;
 
     public void setUserById(String id) {
         user = userManager.getUser(Long.parseLong(id));
+    }
+
+    public void setUserByUserIdentity() {
+        user = userManager.getUserByUserIdentity((UserIdentity) identity.getUser());
     }
 
     @Produces

@@ -27,8 +27,8 @@
                 <h:inputSecret id="passwordRepeat"/>
             </h:panelGrid>
 
-            <s:validateForm validatorId="passwordMatchValidator"/>
-            <s:validateForm validatorId="emailMatchValidator"/>
+            <s:validateForm validatorId="passwordsMatchValidator"/>
+            <s:validateForm validatorId="emailsMatchValidator"/>
 
             <h:commandButton action="#{newUserAction.create}" value="Sign up" />
         </h:form>

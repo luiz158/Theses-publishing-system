@@ -99,6 +99,12 @@ public class ApplicationManager {
                 .getResultList();
     }
 
+    public List<Application> getApplicationsByUser(User user) {
+        return entityManager.createQuery("SELECT a FROM Application a WHERE a.applicant = :applicant", Application.class)
+                .setParameter("applicant", user)
+                .getResultList();
+    }
+
     public void apply(User user, ThesisTopic topic) {
         if (!this.canApply(topic)) {
             throw new InvalidApplicationAttemptException();

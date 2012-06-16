@@ -87,4 +87,10 @@ public class ThesisManager implements Serializable{
                 .setParameter("topic", topic)
                 .getSingleResult();
     }
+
+    public List<Thesis> getThesesByWorker(User worker) {
+        return em.createQuery("SELECT t FROM Thesis t WHERE t.worker = :worker", Thesis.class)
+                .setParameter("worker", worker)
+                .getResultList();
+    }
 }

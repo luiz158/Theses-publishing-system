@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.tps.viewconfig;
 
+import cz.muni.fi.pv243.tps.security.Admin;
 import cz.muni.fi.pv243.tps.security.Supervisor;
 import org.jboss.seam.faces.rewrite.FacesRedirect;
 import org.jboss.seam.faces.rewrite.UrlMapping;
@@ -7,6 +8,7 @@ import org.jboss.seam.faces.security.AccessDeniedView;
 import org.jboss.seam.faces.security.LoginView;
 import org.jboss.seam.faces.view.config.ViewConfig;
 import org.jboss.seam.faces.view.config.ViewPattern;
+import org.jboss.seam.security.annotations.LoggedIn;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
@@ -87,12 +89,29 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/user/#{id}")
         SHOW,
 
+        @LoggedIn
+        @ViewPattern(PAGES_PREFIX + "users/my_profile.xhtml")
+        @UrlMapping(pattern = "/my-profile")
+        MY_PROFILE,
+
         @ViewPattern(PAGES_PREFIX + "users/signup.xhtml")
         @UrlMapping(pattern = "/user/signup")
         SIGN_UP,
 
+        @Admin
+        @LoggedIn
         @ViewPattern(PAGES_PREFIX + "users/edit.xhtml")
         @UrlMapping(pattern = "/user/#{id}/edit")
         EDIT,
+
+        @LoggedIn
+        @ViewPattern(PAGES_PREFIX + "users/edit_password.xhtml")
+        @UrlMapping(pattern = "/user/#{id}/edit/password")
+        EDIT_PASSWORD,
+
+        @LoggedIn
+        @ViewPattern(PAGES_PREFIX + "users/edit_email.xhtml")
+        @UrlMapping(pattern = "/user/#{id}/edit/email")
+        EDIT_EMAIL,
     }
 }

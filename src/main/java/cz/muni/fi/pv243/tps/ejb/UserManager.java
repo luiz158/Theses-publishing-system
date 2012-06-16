@@ -6,6 +6,7 @@ import cz.muni.fi.pv243.tps.events.qualifiers.Update;
 import cz.muni.fi.pv243.tps.events.UserEvent;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
+import cz.muni.fi.pv243.tps.security.Role;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 
 import javax.ejb.Stateless;
@@ -73,5 +74,11 @@ public class UserManager {
 
     public List<User> getUsers() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
+    public List<User> getUsersByRole(Role role) {
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.userIdentity.role = :role", User.class)
+                .setParameter("role", role)
+                .getResultList();
     }
 }
