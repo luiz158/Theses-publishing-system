@@ -32,7 +32,7 @@ public class Application implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentlDateTime")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime applicationDate;
 
     public Application() {
