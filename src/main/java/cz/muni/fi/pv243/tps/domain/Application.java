@@ -32,8 +32,8 @@ public class Application implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime applicationDate;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentlDateTime")
+    private DateTime applicationDate;
 
     public Application() {
     }
@@ -74,11 +74,11 @@ public class Application implements Serializable {
         this.status = status;
     }
 
-    public LocalDateTime getApplicationDate() {
+    public DateTime getApplicationDate() {
         return applicationDate;
     }
 
-    public void setApplicationDate(LocalDateTime applicationDate) {
+    public void setApplicationDate(DateTime applicationDate) {
         this.applicationDate = applicationDate;
     }
 

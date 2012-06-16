@@ -13,8 +13,6 @@ import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -116,7 +114,7 @@ public class ApplicationManager {
         application.setApplicant(user);
         application.setTopic(topic);
         application.setStatus(Application.Status.WAITING);
-        application.setApplicationDate(new LocalDateTime());
+        application.setApplicationDate(new DateTime());
         entityManager.persist(application);
         entityManager.flush();
         createEvent.fire(new ApplicationEvent(application));
