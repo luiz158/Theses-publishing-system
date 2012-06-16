@@ -6,17 +6,19 @@ import cz.muni.fi.pv243.tps.ejb.UserManager;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @Named
-@RequestScoped
-public class ShowUserAction {
+@ViewScoped
+public class ShowUserAction implements Serializable {
     @Inject
-    private UserManager userManager;
+    private transient UserManager userManager;
 
     private User user;
 

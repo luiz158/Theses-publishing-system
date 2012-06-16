@@ -10,17 +10,19 @@ import org.jboss.seam.international.status.Messages;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @Named
-@RequestScoped
-public class NewUserAction {
+@ViewScoped
+public class NewUserAction implements Serializable {
     @Inject
-    private UserManager userManager;
+    private transient UserManager userManager;
 
     @Inject
     private Messages messages;

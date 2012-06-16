@@ -13,6 +13,7 @@ import org.jboss.seam.international.status.Messages;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.io.Serializable;
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
  */
 @Named
-@ConversationScoped
+@ViewScoped
 public class EditUserAction implements Serializable {
 
     @Inject
@@ -35,12 +36,10 @@ public class EditUserAction implements Serializable {
 
     private User editedUser;
 
-    @Begin
     public void setUserById(String id) {
         editedUser = userManager.getUser(Long.parseLong(id));
     }
 
-    @End
     @IsCurrentUser
     public String edit() {
         userManager.editUser(editedUser);
