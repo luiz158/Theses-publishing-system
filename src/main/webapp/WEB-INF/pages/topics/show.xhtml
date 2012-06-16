@@ -21,29 +21,45 @@
             <li>Capacity - <h:outputText value="#{topic.capacity}"/></li>
             <li>Supervisor - <h:outputText
                     value="#{topic.supervisor.name.firstName} #{topic.supervisor.name.lastName}"/></li>
-            <h:panelGroup rendered="#{identity.loggedIn}">
+            <h:panelGroup rendered="#{identity.loggedIn and applyToTopicAction.canApply(topic)}">
                 <li>
                     <h:form>
                         <h:commandButton action="#{applyToTopicAction.apply(topic)}" value="Apply"/>
                     </h:form>
                 </li>
             </h:panelGroup>
+            <h:panelGroup  rendered="#{identity.loggedIn and processApplicationAction.canCancel(waitingApplication)}">
+                <li>
+                    <h:form>
+                        <h:commandButton action="#{processApplicationAction.cancelApplication(waitingApplication)}" value="cancel application"/>
+                    </h:form>
+                </li>
+            </h:panelGroup>
         </ul>
-        <h3>Students who applied to this topic</h3>
-        <h:dataTable value="#{topicApplications}" var="_application">
+        <h3>Waiting application</h3>
+        <h:dataTable value="#{waitingTopicApplications}" var="_application">
             <h:column>
+                <f:facet name="header">Applicant</f:facet>
                 <h:outputText value="#{_application.applicant.name.firstName} #{_application.applicant.name.lastName}"/>
             </h:column>
 
-            <h:column>
-                <h:outputText value="#{_application.status}"/>
-            </h:column>
-
-            <h:column>
+            <h:column rendered="#{userAuthorization.isSupervisor(identity)}">
                 <h:form>
                     <h:commandButton action="#{processApplicationAction.accept(_application)}" value="accept"/>
                     <h:commandButton action="#{processApplicationAction.decline(_application)}" value="decline"/>
                 </h:form>
+            </h:column>
+        </h:dataTable>
+
+        <h3>Theses within this topic</h3>
+        <h:dataTable value="#{topicTheses}" var="_thesis">
+            <h:column>
+                <f:facet name="header">Autor</f:facet>
+                <h:outputText value="#{_thesis.worker.name.firstName} #{_thesis.worker.name.lastName}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Stav</f:facet>
+                <h:outputText value="#{_thesis.status}"/>
             </h:column>
         </h:dataTable>
 

@@ -6,5 +6,5 @@ import javax.ejb.ApplicationException;
  * @author <a href="mailto:pseudo.em@gmail.com">Jakub Cechacek</a>.
  */
 @ApplicationException
-public class InvalidApplicationOperationException extends RuntimeException {
+public class InvalidSystemOperatinException extends RuntimeException {
 }

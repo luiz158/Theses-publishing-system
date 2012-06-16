@@ -44,11 +44,13 @@ public class TopicManager {
 
     public void createTopic(ThesisTopic topic){
         entityManager.persist(topic);
+        entityManager.flush();
         createEvent.fire(new TopicEvent(topic));
     }
 
     public void editTopic(ThesisTopic topic){
         entityManager.merge(topic);
+        entityManager.flush();
         updateEvent.fire(new TopicEvent(topic));
     }
 }

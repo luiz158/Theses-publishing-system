@@ -51,24 +51,10 @@ public class Demo {
         // Theses topics
         ThesisTopic topic = new ThesisTopic();
         topic.setSupervisor(spvsr);
-        topic.setCapacity(3);
+        topic.setCapacity(2);
         topic.setTitle("Thesis topic 1");
         topic.setDescription("Some dummy description for testing purpose");
 
         em.persist(topic);
-
-        // Theses
-        Thesis thesis = new Thesis();
-        thesis.setWorker(admin);
-        thesis.setTopic(topic);
-
-        em.persist(thesis);
-
-        // Theses applications
-        Application application = new Application();
-        application.setApplicant(student);
-        application.setTopic(topic);
-
-        em.persist(application);
     }
 }

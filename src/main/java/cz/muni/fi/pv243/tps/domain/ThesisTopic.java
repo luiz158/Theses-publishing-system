@@ -32,7 +32,7 @@ public class ThesisTopic  implements Serializable {
     private String description;
 
     @Min(1)
-    private Integer capacity = 1;
+    private Integer capacity;
 
     public ThesisTopic() {
     }
@@ -73,11 +73,11 @@ public class ThesisTopic  implements Serializable {
         this.description = description;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

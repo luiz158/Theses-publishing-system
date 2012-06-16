@@ -11,6 +11,9 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "thesis_sequence")
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"worker_id","topic_id"})
+)
 public class Thesis  implements Serializable {
 
     @Id
@@ -22,6 +25,10 @@ public class Thesis  implements Serializable {
 
     @ManyToOne
     private ThesisTopic topic;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
 
     public Thesis() {
     }
@@ -54,6 +61,14 @@ public class Thesis  implements Serializable {
         this.topic = topic;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,5 +84,13 @@ public class Thesis  implements Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public static enum Status{
+        IN_PROGRESS,
+        POSTPONE,
+        CANCELED,
+        SUCCESSFUL,
+        UNSUCCESSFUL,
     }
 }

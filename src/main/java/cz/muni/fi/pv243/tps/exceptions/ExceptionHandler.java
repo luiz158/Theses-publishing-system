@@ -51,8 +51,8 @@ public class ExceptionHandler {
     }
 
     public void handleException(@Handles CaughtException<Throwable> e){
-        logger.error(e);
-        e.handled();
+//        logger.error(e);
+//        e.handled();
         messages.error("Some unexpected error has occurred.");
         redirect(PagesConfig.Pages.INTERNAL_ERROR);
     }

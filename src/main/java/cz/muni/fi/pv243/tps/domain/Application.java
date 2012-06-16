@@ -11,9 +11,6 @@ import static javax.persistence.GenerationType.*;
  */
 @Entity
 @SequenceGenerator(name = "application_sequence")
-@Table(
-    uniqueConstraints = @UniqueConstraint(columnNames = {"applicant_id", "topic_id"})
-)
 public class Application implements Serializable {
 
     @Id
@@ -21,13 +18,15 @@ public class Application implements Serializable {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private User applicant;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private ThesisTopic topic;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.WAITING;
+    private Status status;
 
     public Application() {
     }

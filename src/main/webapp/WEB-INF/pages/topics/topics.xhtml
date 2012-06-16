@@ -10,7 +10,7 @@
     <ui:define name="content">
         <h2>List of topics</h2>
 
-        <h:panelGroup>
+        <h:panelGroup rendered="#{userAuthorization.isSupervisor(identity)}">
             <div>
                 <h:link outcome="#{pagesConfig.getViewId('PagesConfig.Topics.NEW')}">Create new topic</h:link>
             </div>

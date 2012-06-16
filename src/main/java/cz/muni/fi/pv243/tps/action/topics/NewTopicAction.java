@@ -40,6 +40,7 @@ public class NewTopicAction implements Serializable{
     @Begin
     public void setNewTopic(){
         newTopic = new ThesisTopic();
+        newTopic.setCapacity(1);
     }
 
     @End
@@ -52,7 +53,7 @@ public class NewTopicAction implements Serializable{
 
     @Produces
     @Named
-    public ThesisTopic newTopic(){
+    public ThesisTopic getNewTopic(){
         return newTopic;
     }
 }

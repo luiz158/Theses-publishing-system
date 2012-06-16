@@ -2,7 +2,7 @@ package cz.muni.fi.pv243.tps.ejb;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.events.UserEvent;
-import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationOperationException;
+import cz.muni.fi.pv243.tps.exceptions.InvalidSystemOperatinException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidUserIdentityException;
 import cz.muni.fi.pv243.tps.security.Role;
@@ -47,8 +47,8 @@ public class UserManagerTest {
                 .addClass(UserIdentity.class)
                 .addClass(Role.class)
                 .addPackage(User.class.getPackage())
-                .addPackage(InvalidApplicationOperationException.class.getPackage())
-                .addClass(UserEvent.class);
+                .addPackage(InvalidSystemOperatinException.class.getPackage())
+                .addPackage(UserEvent.class.getPackage());
 
         System.out.println(archive.toString(true));
         return archive;

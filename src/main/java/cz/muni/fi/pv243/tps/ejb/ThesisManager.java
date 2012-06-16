@@ -2,11 +2,12 @@ package cz.muni.fi.pv243.tps.ejb;
 
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
+import cz.muni.fi.pv243.tps.domain.ThesisTopic;
+import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.events.ThesisEvent;
 import cz.muni.fi.pv243.tps.events.qualifiers.Create;
 import cz.muni.fi.pv243.tps.events.qualifiers.Update;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
-
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -21,7 +22,6 @@ import java.util.List;
 
 @Stateless
 public class ThesisManager implements Serializable{
-
     @PersistenceContext
     EntityManager em;
 
@@ -37,16 +37,37 @@ public class ThesisManager implements Serializable{
         return thesis;
     }
 
-    public void createThesis(Thesis thesis){
-        em.persist(thesis);
-        createEvent.fire(new ThesisEvent(thesis));
+    public Thesis getThesis(User user, ThesisTopic topic){
+        List<Thesis> t = em.createQuery("SELECT t FROM Thesis t " +
+                "WHERE  t.worker = :user " +
+                "AND t.topic = :topic", Thesis.class)
+                .setParameter("user", user)
+                .setParameter("topic", topic)
+                .getResultList();
+        if (t.isEmpty()){
+            return null;
+        } else {
+            return t.get(0);
+        }
+
     }
 
-    public void createThesisFromApplication(Application application){
+    public boolean createThesis(Thesis thesis){
+        if (getThesis(thesis.getWorker(), thesis.getTopic()) != null){
+            return false;
+        }
+        em.persist(thesis);
+        em.flush();
+        createEvent.fire(new ThesisEvent(thesis));
+        return true;
+    }
+
+    public boolean createThesisFromApplication(Application application){
         Thesis thesis = new Thesis();
         thesis.setWorker(application.getApplicant());
         thesis.setTopic(application.getTopic());
-        createThesis(thesis);
+        thesis.setStatus(Thesis.Status.IN_PROGRESS);
+        return createThesis(thesis);
     }
 
     public List<Thesis> getTheses(){
@@ -57,5 +78,13 @@ public class ThesisManager implements Serializable{
         return em.createQuery("SELECT t FROM Thesis t WHERE t.topic.id = :topicId", Thesis.class)
                 .setParameter("topicId", topicId)
                 .getResultList();
+    }
+
+    public long countTheses(ThesisTopic topic){
+        return em.createQuery("SELECT count(t) " +
+                "FROM Thesis t " +
+                "WHERE t.topic = :topic", Long.class)
+                .setParameter("topic", topic)
+                .getSingleResult();
     }
 }
