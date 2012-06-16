@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.tps.ejb;
 
-import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.domain.User;
@@ -19,6 +18,8 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +38,15 @@ public class ThesisManagerTest {
     private EntityManager entityManager;
 
     @Inject
-    private UserTransaction transaction;
+    private UserTransaction tx;
 
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive archive = ArchiveTemplates.WEB_ARCHIVE
-                .addClass(ThesisManager.class)
                 .addClass(UserIdentity.class)
                 .addClass(Role.class)
-                .addClass(ThesisEvent.class)
+                .addPackage(ThesisEvent.class.getPackage())
+                .addPackage(ThesisManager.class.getPackage())
                 .addPackage(InvalidEntityIdException.class.getPackage())
                 .addPackage(Thesis.class.getPackage());
 
@@ -56,82 +57,58 @@ public class ThesisManagerTest {
     private final List<Thesis> theses = new ArrayList<Thesis>();
 
     @Before
-    public void setUp() {
-        final User spvsr = new User();
+    public void setUp() throws SystemException, NotSupportedException {
+        tx.begin();
+
+        User spvsr = new User();
         spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
         spvsr.getUserIdentity().setRole(Role.SUPERVISOR);
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
-        final User student = new User();
+        User student = new User();
         student.setUserIdentity(new UserIdentity("student", "password"));
         student.getUserIdentity().setRole(Role.STUDENT);
         student.setName(new User.Name("Student", "Druhy"));
         student.setEmail("student@email.com");
 
-        final ThesisTopic topic = new ThesisTopic();
+        User student2 = new User();
+        student2.setUserIdentity(new UserIdentity("student2", "password"));
+        student2.getUserIdentity().setRole(Role.STUDENT);
+        student2.setName(new User.Name("Student", "Treti"));
+        student2.setEmail("student2@email.com");
+
+        ThesisTopic topic = new ThesisTopic();
         topic.setCapacity(1);
         topic.setDescription("Thesis topic 1 description");
         topic.setTitle("Topic1");
         topic.setSupervisor(spvsr);
 
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                entityManager.persist(spvsr);
-                entityManager.persist(student);
-                entityManager.persist(topic);
-                return null;
-            }
-        }).execute();
+        entityManager.persist(spvsr);
+        entityManager.persist(student);
+        entityManager.persist(student2);
+        entityManager.persist(topic);
 
-        final Thesis thesis1 = new Thesis();
+        Thesis thesis1 = new Thesis();
         thesis1.setTopic(topic);
         thesis1.setWorker(student);
+        thesis1.setStatus(Thesis.Status.IN_PROGRESS);
 
-        final Thesis thesis2 = new Thesis();
+        Thesis thesis2 = new Thesis();
         thesis2.setTopic(topic);
-        thesis2.setWorker(student);
+        thesis2.setWorker(student2);
+        thesis2.setStatus(Thesis.Status.SUCCESSFUL);
 
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                entityManager.persist(thesis1);
-                entityManager.persist(thesis2);
-                return null;
-            }
-        }).execute();
+        entityManager.persist(thesis1);
+        entityManager.persist(thesis2);
 
         theses.add(0, thesis1);
         theses.add(1, thesis2);
     }
 
     @After
-    public void tearDown() {
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                List<Thesis> theses = entityManager
-                        .createQuery("SELECT t FROM Thesis t", Thesis.class)
-                        .getResultList();
-                for (Thesis t : theses) {
-                    entityManager.remove(t);
-                }
-                List<ThesisTopic> topics = entityManager
-                        .createQuery("SELECT t FROM ThesisTopic t", ThesisTopic.class)
-                        .getResultList();
-                for (ThesisTopic t : topics) {
-                    entityManager.remove(t);
-                }
-                List<User> users = entityManager
-                        .createQuery("SELECT u FROM User u", User.class)
-                        .getResultList();
-                for (User u : users) {
-                    entityManager.remove(u);
-                }
-                return null;
-            }
-        }).execute();
+    public void tearDown() throws SystemException {
+        tx.rollback();
     }
 
     @Test
@@ -143,51 +120,105 @@ public class ThesisManagerTest {
     }
 
     @Test(expected = InvalidEntityIdException.class)
-    public void getNotExistiongThesisTest() {
+    public void getNotExistingThesisTest() {
         thesisManager.getThesis(Long.MAX_VALUE);
     }
 
     @Test
-    public void createThesisTest() {
-        final Thesis expected = new Thesis();
-        expected.setTopic(theses.get(0).getTopic());
-        expected.setWorker(theses.get(0).getWorker());
-        thesisManager.createThesis(expected);
-
-        final Thesis actual = (Thesis) new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                return entityManager.find(Thesis.class, expected.getId());
-            }
-        }).execute();
+    public void getExistingThesisByWorkerAndTopicTest() {
+        Thesis expected = theses.get(0);
+        Thesis actual = thesisManager.getThesis(expected.getWorker(), expected.getTopic());
 
         assertEquals(expected, actual);
     }
 
     @Test
-    public void getTopicsTest() {
-        List<Thesis> theses = thesisManager.getTheses();
+    public void createThesisTest() {
+        Thesis expected = new Thesis();
+        expected.setTopic(theses.get(0).getTopic());
 
-        for (int i = 0; i < theses.size(); i++) {
-            assertEquals(this.theses.get(i), theses.get(i));
-        }
+        User user = new User();
+        user.setName(new User.Name("nekdo", "neco"));
+        user.setEmail("email@email.com");
+        user.setUserIdentity(new UserIdentity("nekdo", "password"));
+        user.getUserIdentity().setRole(Role.STUDENT);
+
+        entityManager.persist(user);
+
+        expected.setWorker(user);
+        thesisManager.createThesis(expected);
+
+        Thesis actual = entityManager.find(Thesis.class, expected.getId());
+
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void getTopicsByTopicIdTest() {
-        Long topicId = this.theses.get(0).getTopic().getId();
-        List<Thesis> theses = thesisManager.getThesesByTopicId(topicId);
-
-        List<Thesis> thesesWithGivenTopicId = new ArrayList<Thesis>();
+    public void getThesesTest() {
+        List<Thesis> theses = thesisManager.getTheses();
 
         for (Thesis t : this.theses) {
+            assertTrue(theses.contains(t));
+        }
+
+        assertEquals(this.theses.size(), theses.size());
+    }
+
+    @Test
+    public void getThesesByTopicIdTest() {
+        Long topicId = this.theses.get(0).getTopic().getId();
+
+        List<Thesis> expected = new ArrayList<Thesis>();
+        for (Thesis t : this.theses) {
             if (t.getTopic().getId().equals(topicId)) {
-                thesesWithGivenTopicId.add(t);
+                expected.add(t);
             }
         }
 
-        for (int i = 0; i < theses.size(); i++) {
-            assertEquals(thesesWithGivenTopicId.get(i), theses.get(i));
+
+        List<Thesis> actual = thesisManager.getThesesByTopicId(topicId);
+
+        for (Thesis t : expected) {
+            assertTrue(actual.contains(t));
         }
+
+        assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    public void countThesesBytTopicTest() {
+        ThesisTopic topic = theses.get(0).getTopic();
+
+        long expected = 0;
+
+        for (Thesis t : theses) {
+            if (topic.equals(t.getTopic())) {
+                expected++;
+            }
+        }
+
+        long actual = thesisManager.countTheses(topic);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getThesesByWorkerTest() {
+        User worker = theses.get(0).getWorker();
+
+        List<Thesis> expected = new ArrayList<Thesis>();
+        for (Thesis t : theses) {
+            if (t.getWorker().equals(worker)) {
+                expected.add(t);
+            }
+        }
+
+        List<Thesis> actual = thesisManager.getThesesByWorker(worker);
+
+        for (Thesis t : expected) {
+            assertTrue(actual.contains(t));
+        }
+
+        assertEquals(expected.size(), actual.size());
     }
 }

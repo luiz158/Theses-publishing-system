@@ -17,7 +17,9 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.*;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class TopicManagerTest {
     private EntityManager entityManager;
 
     @Inject
-    private UserTransaction transaction;
+    private UserTransaction tx;
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -54,48 +56,38 @@ public class TopicManagerTest {
     private final List<ThesisTopic> topics = new ArrayList<ThesisTopic>();
 
     @Before
-    public void setUp() {
-        final User spvsr = new User();
+    public void setUp() throws SystemException, NotSupportedException {
+        tx.begin();
+
+        User spvsr = new User();
         spvsr.setUserIdentity(new UserIdentity("supervisor", "password"));
         spvsr.getUserIdentity().setRole(Role.SUPERVISOR);
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                entityManager.persist(spvsr);
-                return null;
-            }
-        }).execute();
+        entityManager.persist(spvsr);
 
-        final ThesisTopic topic1 = new ThesisTopic();
+        ThesisTopic topic1 = new ThesisTopic();
         topic1.setCapacity(1);
         topic1.setDescription("Thesis topic 1 description");
         topic1.setTitle("Topic1");
         topic1.setSupervisor(spvsr);
 
-        final ThesisTopic topic2 = new ThesisTopic();
+        ThesisTopic topic2 = new ThesisTopic();
         topic2.setCapacity(1);
         topic2.setDescription("Thesis topic 2 description");
         topic2.setTitle("Topic2");
         topic2.setSupervisor(spvsr);
 
-        final ThesisTopic topic3 = new ThesisTopic();
+        ThesisTopic topic3 = new ThesisTopic();
         topic3.setCapacity(1);
         topic3.setDescription("Thesis topic 3 description");
         topic3.setTitle("Topic3");
         topic3.setSupervisor(spvsr);
 
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                entityManager.persist(topic1);
-                entityManager.persist(topic2);
-                entityManager.persist(topic3);
-                return null;
-            }
-        }).execute();
+        entityManager.persist(topic1);
+        entityManager.persist(topic2);
+        entityManager.persist(topic3);
 
         topics.add(0, topic1);
         topics.add(1, topic2);
@@ -103,25 +95,8 @@ public class TopicManagerTest {
     }
 
     @After
-    public void tearDown() {
-        new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                List<ThesisTopic> topics = entityManager
-                        .createQuery("SELECT t FROM ThesisTopic t", ThesisTopic.class)
-                        .getResultList();
-                for (ThesisTopic t : topics) {
-                    entityManager.remove(t);
-                }
-                List<User> users = entityManager
-                        .createQuery("SELECT u FROM User u", User.class)
-                        .getResultList();
-                for (User u : users) {
-                    entityManager.remove(u);
-                }
-                return null;
-            }
-        }).execute();
+    public void tearDown() throws SystemException {
+        tx.rollback();
     }
 
     @Test
@@ -141,14 +116,16 @@ public class TopicManagerTest {
     public void getTopicsTest() {
         List<ThesisTopic> topics = topicManager.getTopics();
 
-        for (int i = 0; i < topics.size(); i++) {
-            assertEquals(this.topics.get(i), topics.get(i));
+        for (ThesisTopic t : this.topics) {
+            assertTrue(topics.contains(t));
         }
+
+        assertEquals(this.topics.size(), topics.size());
     }
 
     @Test
     public void createTopicTest() {
-        final ThesisTopic expected = new ThesisTopic();
+        ThesisTopic expected = new ThesisTopic();
         expected.setCapacity(1);
         expected.setDescription("Thesis topic 4 description");
         expected.setTitle("Topic4");
@@ -156,27 +133,17 @@ public class TopicManagerTest {
 
         topicManager.createTopic(expected);
 
-        final ThesisTopic actual = (ThesisTopic) new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                return entityManager.find(ThesisTopic.class, expected.getId());
-            }
-        }).execute();
+        ThesisTopic actual = entityManager.find(ThesisTopic.class, expected.getId());
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void editTopicTest() {
-        final ThesisTopic expected = topics.get(0);
+        ThesisTopic expected = topics.get(0);
         topicManager.editTopic(expected);
 
-        final ThesisTopic actual = (ThesisTopic) new TransactionProxy(transaction, new TransactionProxyable() {
-            @Override
-            public Object execute() {
-                return entityManager.find(ThesisTopic.class, expected.getId());
-            }
-        }).execute();
+        ThesisTopic actual = entityManager.find(ThesisTopic.class, expected.getId());
 
         assertEquals(expected, actual);
     }
