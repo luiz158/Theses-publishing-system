@@ -1,5 +1,9 @@
 package cz.muni.fi.pv243.tps.domain;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -27,6 +31,9 @@ public class Application implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime applicationDate;
 
     public Application() {
     }
@@ -65,6 +72,14 @@ public class Application implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public LocalDateTime getApplicationDate() {
+        return applicationDate;
+    }
+
+    public void setApplicationDate(LocalDateTime applicationDate) {
+        this.applicationDate = applicationDate;
     }
 
     @Override

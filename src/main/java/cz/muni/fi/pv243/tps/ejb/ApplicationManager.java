@@ -12,6 +12,9 @@ import cz.muni.fi.pv243.tps.exceptions.ApplicationProcessedException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
 import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -54,7 +57,8 @@ public class ApplicationManager {
         return entityManager.createQuery("SELECT a FROM  Application a " +
                 "WHERE a.applicant = :user " +
                 "AND a.topic = :topic " +
-                "AND a.status = :status", Application.class)
+                "AND a.status = :status " +
+                "ORDER BY a.applicationDate ASC", Application.class)
                 .setParameter("user", user)
                 .setParameter("topic", topic)
                 .setParameter("status", status)
@@ -88,7 +92,8 @@ public class ApplicationManager {
     public List<Application> getApplicationsByTopic(ThesisTopic topic, Application.Status status) {
         return entityManager.createQuery("SELECT a FROM Application a " +
                 "WHERE a.topic = :topic " +
-                "AND a.status = :status", Application.class)
+                "AND a.status = :status " +
+                "ORDER BY a.applicationDate ASC", Application.class)
                 .setParameter("topic", topic)
                 .setParameter("status", status)
                 .getResultList();
@@ -105,6 +110,7 @@ public class ApplicationManager {
         application.setApplicant(user);
         application.setTopic(topic);
         application.setStatus(Application.Status.WAITING);
+        application.setApplicationDate(new LocalDateTime());
         entityManager.persist(application);
         entityManager.flush();
         createEvent.fire(new ApplicationEvent(application));
