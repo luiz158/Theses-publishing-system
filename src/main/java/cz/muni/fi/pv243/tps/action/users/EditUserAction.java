@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.tps.action.users;
 
-import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.Admin;
@@ -64,7 +63,6 @@ public class EditUserAction implements Serializable {
 
     @Produces
     @Named
-    @Current
     public User getEditedUser() {
         return editedUser;
     }

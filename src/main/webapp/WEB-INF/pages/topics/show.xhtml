@@ -52,7 +52,7 @@
                 <h:outputText value="#{_application.applicationDate}"/>
             </h:column>
 
-            <h:column rendered="#{userAuthorization.isSupervisor(identity)}">
+            <h:column rendered="#{userAuthorization.isSupervisor}">
                 <h:form>
                     <h:commandButton action="#{processApplicationAction.accept(_application)}" value="accept"/>
                     <h:commandButton action="#{processApplicationAction.decline(_application)}" value="decline"/>

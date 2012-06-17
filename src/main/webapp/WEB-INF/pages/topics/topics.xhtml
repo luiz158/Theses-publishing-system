@@ -33,7 +33,7 @@
                 <h:outputText value="#{_topic.supervisor.name.firstName} #{_topic.supervisor.name.lastName}"/>
             </h:column>
 
-            <h:column rendered="#{identity.loggedIn and userAuthorization.hasRole(identity, 'SUPERVISOR')}">
+            <h:column rendered="#{identity.loggedIn and userAuthorization.hasRole('SUPERVISOR')}">
                 <f:facet name="header">Action</f:facet>
 
                 <div>
@@ -42,7 +42,7 @@
             </h:column>
 
         </h:dataTable>
-        <h:panelGroup rendered="#{userAuthorization.isSupervisor(identity)}">
+        <h:panelGroup rendered="#{userAuthorization.isSupervisor}">
             <div class="action">
                 <h:link outcome="#{pagesConfig.getViewId('PagesConfig.Topics.NEW')}">Create new topic</h:link>
             </div>

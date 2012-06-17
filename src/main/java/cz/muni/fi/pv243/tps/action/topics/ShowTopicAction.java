@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.tps.action.topics;
 
-import cz.muni.fi.pv243.tps.action.Current;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;

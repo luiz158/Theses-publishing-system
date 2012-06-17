@@ -28,7 +28,7 @@
                 <f:facet name="header">Name</f:facet>
                 <h:outputText value="#{_user.name}"/>
             </h:column>
-            <h:column rendered="#{identity.isLoggedIn and userAuthorization.hasRole(identity, 'ADMIN')}">
+            <h:column rendered="#{identity.isLoggedIn and userAuthorization.hasRole('ADMIN')}">
                 <f:facet name="header">Action</f:facet>
                 <div>
                     <h:link outcome="#{pagesConfig.getViewId('Users.EDIT')}&amp;id=#{_user.id}">Edit</h:link>

@@ -1,6 +1,8 @@
 package cz.muni.fi.pv243.tps.viewconfig;
 
 import cz.muni.fi.pv243.tps.security.Admin;
+import cz.muni.fi.pv243.tps.security.IsCurrentUser;
+import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
 import cz.muni.fi.pv243.tps.security.Supervisor;
 import org.jboss.seam.faces.rewrite.FacesRedirect;
 import org.jboss.seam.faces.rewrite.UrlMapping;
@@ -75,7 +77,7 @@ public interface PagesConfig {
         @UrlMapping(pattern = "/topic/new")
         NEW,
 
-        @Supervisor
+        @IsSupervisorOf
         @LoggedIn
         @ViewPattern(PAGES_PREFIX + "topics/edit.xhtml")
         @UrlMapping(pattern = "/topic/#{id}/edit")
@@ -107,11 +109,13 @@ public interface PagesConfig {
         EDIT,
 
         @LoggedIn
+        @IsCurrentUser
         @ViewPattern(PAGES_PREFIX + "users/edit_password.xhtml")
         @UrlMapping(pattern = "/user/#{id}/edit/password")
         EDIT_PASSWORD,
 
         @LoggedIn
+        @IsCurrentUser
         @ViewPattern(PAGES_PREFIX + "users/edit_email.xhtml")
         @UrlMapping(pattern = "/user/#{id}/edit/email")
         EDIT_EMAIL,
