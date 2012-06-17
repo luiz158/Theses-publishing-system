@@ -1,5 +1,7 @@
-package cz.muni.fi.pv243.tps.exceptions;
+package cz.muni.fi.pv243.tps.exceptions.handlers;
 
+import cz.muni.fi.pv243.tps.exceptions.InvalidApplicationAttemptException;
+import cz.muni.fi.pv243.tps.exceptions.InvalidEntityIdException;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;
@@ -46,8 +48,8 @@ public class ExceptionHandler {
     }
 
     public void handleException(@Handles CaughtException<Throwable> e){
-//        logger.error(e);
-//        e.handled();
+        logger.error(e.getException().toString());
+        e.handled();
         redirect(PagesConfig.Pages.INTERNAL_ERROR);
     }
 

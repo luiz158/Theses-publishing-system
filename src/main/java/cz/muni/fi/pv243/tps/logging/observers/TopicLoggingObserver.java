@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.observers;
+package cz.muni.fi.pv243.tps.logging.observers;
 
 import cz.muni.fi.pv243.tps.events.TopicEvent;
 import cz.muni.fi.pv243.tps.events.qualifiers.Create;

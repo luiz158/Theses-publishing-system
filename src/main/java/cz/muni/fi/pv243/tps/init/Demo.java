@@ -32,6 +32,12 @@ public class Demo {
         spvsr.setName(new User.Name("Supervisor", "Prvni"));
         spvsr.setEmail("supr@email.com");
 
+        User spvsr2 = new User();
+        spvsr2.setUserIdentity(new UserIdentity("supervisor2", "password"));
+        spvsr2.getUserIdentity().setRole(Role.SUPERVISOR);
+        spvsr2.setName(new User.Name("Supervisor", "Druhy"));
+        spvsr2.setEmail("supr@visor.com");
+
         User admin = new User();
         admin.setUserIdentity(new UserIdentity("admin", "password"));
         admin.getUserIdentity().setRole(Role.ADMIN);
@@ -45,6 +51,7 @@ public class Demo {
         student.setEmail("stud@muni.cz");
 
         em.persist(spvsr);
+        em.persist(spvsr2);
         em.persist(admin);
         em.persist(student);
 

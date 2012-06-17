@@ -26,8 +26,8 @@
                 <h:inputText id="lastName" value="#{editedUser.name.lastName}" />
                 <h:outputLabel value="Email" for="email"/>
                 <h:inputText id="email" value="#{editedUser.email}" />
-                <h:panelGroup rendered="#{userAuthorization.hasRole(identity, 'ADMIN')}">
-                    <h:outputLabel value="Role" for="role"/>
+                <h:outputLabel value="Role" for="role" rendered="#{userAuthorization.hasRole('ADMIN')}"/>
+                <h:panelGroup rendered="#{userAuthorization.hasRole('ADMIN')}">
                     <h:selectOneMenu id="role" value="#{editedUser.userIdentity.role}">
                         <f:selectItems value="#{roles}" var="_role"
                                        itemValue="#{_role}"

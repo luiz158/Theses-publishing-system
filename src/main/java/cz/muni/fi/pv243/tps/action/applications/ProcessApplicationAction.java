@@ -42,14 +42,14 @@ public class ProcessApplicationAction  implements Serializable {
     @Inject
     private Messages messages;
 
-    @Supervisor
+    @IsSupervisorOf
     public String accept(Application application){
         applicationManager.acceptApplication(application);
         messages.info("Application has been accepted");
         return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 
-    @Supervisor
+    @IsSupervisorOf
     public String decline(Application application){
         applicationManager.declineApplication(application);
         messages.info("Application has been declined");
