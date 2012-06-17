@@ -1,3 +1,5 @@
+@import "forms.css";
+
 body {
     font-family: "Trebuchet MS", "Arial", sans-serif;
     font-size: 0.9em;
@@ -34,12 +36,76 @@ h4 {
 }
 
 #menu {
+    border-bottom: 1px dotted #EEE;
+}
+
+#menu ul {
     list-style: none;
     padding: 0;
 }
 
 #menu li {
     display: inline;
-    padding: 5px;
+    padding: 10px;
+    font-size: 1.2em;
 }
+#menu li a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#menu li a:hover {
+    color: #888;
+}
+
+a, a:visited {
+    color: #333;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+td,th {
+    border: 1px solid #EEE;
+    padding: 2px;
+    padding-left: 5px;
+}
+th {
+    background: #EEE;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.errors, .fatals {
+    background: #FAA;
+    border-color: #F66;
+}
+
+.infos {
+    background: #EEE;
+    border-color: #999;
+}
+
+.action {
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+}
+
 

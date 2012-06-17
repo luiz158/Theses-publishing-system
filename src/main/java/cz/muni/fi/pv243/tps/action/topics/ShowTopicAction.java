@@ -37,30 +37,37 @@ public class ShowTopicAction implements Serializable {
     private transient ThesisManager thesisManager;
 
     @Inject
-    private transient UserManager userManager;
-
-    @Inject
     private Identity identity;
 
     private ThesisTopic topic;
-
-    private Application application;
 
     public void  setTopicById(String id){
         topic = topicManager.getTopic(Long.parseLong(id));
     }
 
-    @Produces
-    @Named
-    public List<Application> getWaitingTopicApplications(){
-        return  applicationManager.getApplicationsByTopic(topic, Application.Status.WAITING);
-    }
+    private List<Application> currentTopicApplications;
 
     @Produces
     @Named
-    public List<Thesis> getTopicTheses(){
-        return thesisManager.getThesesByTopicId(topic.getId());
+    public List<Application> getWaitingTopicApplications() {
+        if (currentTopicApplications == null) {
+            currentTopicApplications = applicationManager.getApplicationsByTopic(topic, Application.Status.WAITING);
+        }
+        return currentTopicApplications;
     }
+
+    private List<Thesis> currentTheses;
+
+    @Produces
+    @Named
+    public List<Thesis> getTopicTheses() {
+        if (currentTheses == null) {
+            currentTheses = thesisManager.getThesesByTopicId(topic.getId());
+        }
+        return currentTheses;
+    }
+
+    private Application application;
 
     @Produces
     @Named

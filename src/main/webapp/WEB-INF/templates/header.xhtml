@@ -5,17 +5,19 @@
 
     <h1 id="header-title">Theses publishing system</h1>
 
-    <ul id="menu">
-        <li><h:link outcome="#{pagesConfig.getViewId('Pages.INDEX')}">Home</h:link></li>
-        <li><h:link outcome="#{pagesConfig.getViewId('Topics.TOPICS')}">Thesis topics</h:link></li>
-        <li><h:link outcome="#{pagesConfig.getViewId('Users.USERS')}">Users</h:link></li>
-        <h:panelGroup rendered="#{!identity.loggedIn}">
-            <li><h:link outcome="#{pagesConfig.getViewId('Users.SIGN_UP')}">Sign up</h:link></li>
-            <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_IN')}">Log in</h:link></li>
-        </h:panelGroup>
-        <h:panelGroup rendered="#{identity.loggedIn}">
-            <li><h:link outcome="#{pagesConfig.getViewId('Users.MY_PROFILE')}">Profile</h:link></li>
-            <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_OUT')}">Logout</h:link></li>
-        </h:panelGroup>
-    </ul>
+    <div id="menu">
+        <ul>
+            <li><h:link outcome="#{pagesConfig.getViewId('Pages.INDEX')}">Home</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Topics.TOPICS')}">Thesis topics</h:link></li>
+            <li><h:link outcome="#{pagesConfig.getViewId('Users.USERS')}">Users</h:link></li>
+            <h:panelGroup rendered="#{!identity.loggedIn}">
+                <li><h:link outcome="#{pagesConfig.getViewId('Users.SIGN_UP')}">Sign up</h:link></li>
+                <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_IN')}">Log in</h:link></li>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{identity.loggedIn}">
+                <li><h:link outcome="#{pagesConfig.getViewId('Users.MY_PROFILE')}">Profile</h:link></li>
+                <li><h:link outcome="#{pagesConfig.getViewId('Pages.LOG_OUT')}">Logout</h:link></li>
+            </h:panelGroup>
+        </ul>
+    </div>
 </ui:composition>

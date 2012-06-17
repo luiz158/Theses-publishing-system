@@ -55,9 +55,9 @@ public class ApplyToTopicAction implements Serializable {
             messages.error("You can't apply for this topic");
         } catch (ApplicationInProgressException e){
             messages.error("You've already applied for this topic.");
-        } finally {
-            return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
         }
+
+        return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 
     public boolean canApply(ThesisTopic topic){

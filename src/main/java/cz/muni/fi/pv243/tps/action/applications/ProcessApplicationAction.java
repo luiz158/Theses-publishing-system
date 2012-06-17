@@ -62,9 +62,9 @@ public class ProcessApplicationAction  implements Serializable {
             messages.info("Application was canceled successfully");
         } catch (ApplicationInProgressException e){
             messages.info("This application can't be canceled");
-        } finally {
-            return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
         }
+
+        return pagesConfig.getViewId(PagesConfig.Pages.CURRENT_PAGE);
     }
 
     public boolean canCancel(Application application){

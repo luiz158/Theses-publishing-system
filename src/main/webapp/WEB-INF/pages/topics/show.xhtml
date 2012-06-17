@@ -36,11 +36,15 @@
                 </li>
             </h:panelGroup>
         </ul>
-        <h3>Waiting application</h3>
-        <h:dataTable value="#{waitingTopicApplications}" var="_application">
+        <h3>Waiting applications</h3>
+        <h:panelGroup rendered="#{empty waitingTopicApplications}">
+            <p>No waiting applications</p>
+        </h:panelGroup>
+        <h:dataTable value="#{waitingTopicApplications}" var="_application"
+                     rendered="#{not empty waitingTopicApplications}">
             <h:column>
                 <f:facet name="header">Applicant</f:facet>
-                <h:outputText value="#{_application.applicant.name.firstName} #{_application.applicant.name.lastName}"/>
+                <h:outputText value="#{_application.applicant.name}"/>
             </h:column>
 
             <h:column>
@@ -56,14 +60,18 @@
             </h:column>
         </h:dataTable>
 
-        <h3>Theses within this topic</h3>
-        <h:dataTable value="#{topicTheses}" var="_thesis">
+        <h3>Theses in this topic</h3>
+        <h:panelGroup rendered="#{empty topicTheses}">
+            <p>No theses in this topic</p>
+        </h:panelGroup>
+        <h:dataTable value="#{topicTheses}" var="_thesis"
+                     rendered="#{not empty topicTheses}">
             <h:column>
-                <f:facet name="header">Autor</f:facet>
-                <h:outputText value="#{_thesis.worker.name.firstName} #{_thesis.worker.name.lastName}"/>
+                <f:facet name="header">Author</f:facet>
+                <h:outputText value="#{_thesis.worker.name}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Stav</f:facet>
+                <f:facet name="header">Status</f:facet>
                 <h:outputText value="#{_thesis.status}"/>
             </h:column>
         </h:dataTable>

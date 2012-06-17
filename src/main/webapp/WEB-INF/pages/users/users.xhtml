@@ -12,23 +12,21 @@
         <h:dataTable value="#{users}" var="_user">
             <h:column>
                 <f:facet name="header">Id</f:facet>
-                <p><h:outputText value="#{_user.id}"/></p>
+                <h:outputText value="#{_user.id}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">Username</f:facet>
-                <p>
-                    <h:link outcome="#{pagesConfig.getViewId('Users.SHOW')}&amp;id=#{_user.id}">
-                        <h:outputText value="#{_user.userIdentity.username}"/>
-                    </h:link>
-                </p>
+                <h:link outcome="#{pagesConfig.getViewId('Users.SHOW')}&amp;id=#{_user.id}">
+                    <h:outputText value="#{_user.userIdentity.username}"/>
+                </h:link>
             </h:column>
             <h:column>
                 <f:facet name="header">Email</f:facet>
-                <p><h:outputText value="#{_user.email}"/></p>
+                <h:outputText value="#{_user.email}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">Name</f:facet>
-                <p><h:outputText value="#{_user.name}"/></p>
+                <h:outputText value="#{_user.name}"/>
             </h:column>
             <h:column rendered="#{identity.isLoggedIn and userAuthorization.hasRole(identity, 'ADMIN')}">
                 <f:facet name="header">Action</f:facet>

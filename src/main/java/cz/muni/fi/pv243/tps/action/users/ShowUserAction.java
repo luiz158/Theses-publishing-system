@@ -1,6 +1,10 @@
 package cz.muni.fi.pv243.tps.action.users;
 
+import cz.muni.fi.pv243.tps.domain.Application;
+import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.User;
+import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
+import cz.muni.fi.pv243.tps.ejb.ThesisManager;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.jboss.seam.security.Identity;
@@ -12,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author <a href="mailto:vaclav.dedik@gmail.com">Vaclav Dedik</a>
@@ -21,6 +26,12 @@ import java.io.Serializable;
 public class ShowUserAction implements Serializable {
     @Inject
     private transient UserManager userManager;
+
+    @Inject
+    private transient ThesisManager thesisManager;
+
+    @Inject
+    private transient ApplicationManager applicationManager;
 
     @Inject
     private Identity identity;
@@ -39,5 +50,28 @@ public class ShowUserAction implements Serializable {
     @Named
     public User getUser() {
         return user;
+    }
+
+    private List<Application> currentApplications;
+
+    @Produces
+    @Named
+    public List<Application> getUsersApplications() {
+        if (currentApplications == null) {
+            currentApplications = applicationManager.getApplicationsByUser(user);
+        }
+
+        return currentApplications;
+    }
+
+    private List<Thesis> currentTheses;
+
+    @Produces
+    @Named
+    public List<Thesis> getUsersTheses() {
+        if (currentTheses == null) {
+            currentTheses = thesisManager.getThesesByWorker(user);
+        }
+        return currentTheses;
     }
 }

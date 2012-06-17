@@ -16,7 +16,7 @@
         <h:panelGroup rendered="#{!identity.loggedIn}">
             <h2>Log in</h2>
 
-            <h:form>
+            <h:form styleClass="panelGrid">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Username" for="username"/>
                     <h:inputText id="username" value="#{credentials.username}" />

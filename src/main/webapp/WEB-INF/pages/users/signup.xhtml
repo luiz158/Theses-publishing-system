@@ -9,21 +9,21 @@
     <ui:define name="content">
         <h2>Sign up</h2>
 
-        <h:form>
+        <h:form styleClass="panelGrid">
             <h:panelGrid columns="2">
-                <h:outputLabel value="Username" for="username"/>
+                <h:outputLabel value="Username" for="username" styleClass="required"/>
                 <h:inputText id="username" value="#{newUser.userIdentity.username}" />
-                <h:outputLabel value="First name" for="firstName"/>
+                <h:outputLabel value="First name" for="firstName" styleClass="required"/>
                 <h:inputText id="firstName" value="#{newUser.name.firstName}" />
-                <h:outputLabel value="Last name" for="lastName"/>
+                <h:outputLabel value="Last name" for="lastName" styleClass="required"/>
                 <h:inputText id="lastName" value="#{newUser.name.lastName}" />
-                <h:outputLabel value="Email" for="email"/>
+                <h:outputLabel value="Email" for="email" styleClass="required"/>
                 <h:inputText id="email" value="#{newUser.email}" />
-                <h:outputLabel value="Repeat email" for="emailRepeat"/>
+                <h:outputLabel value="Repeat email" for="emailRepeat" styleClass="required"/>
                 <h:inputText id="emailRepeat"/>
-                <h:outputLabel value="Password" for="password" />
+                <h:outputLabel value="Password" for="password" styleClass="required"/>
                 <h:inputSecret id="password" value="#{newUser.userIdentity.password}"/>
-                <h:outputLabel value="Repeat password" for="passwordRepeat" />
+                <h:outputLabel value="Repeat password" for="passwordRepeat" styleClass="required"/>
                 <h:inputSecret id="passwordRepeat"/>
             </h:panelGrid>
 

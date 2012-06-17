@@ -25,9 +25,6 @@ public class EditTopicAction implements Serializable {
     @Inject
     private transient TopicManager topicManager;
 
-//    @Inject
-//    private CurrentTopicProducer topicProducer;
-
     @Inject
     private Messages messages;
 
@@ -38,14 +35,12 @@ public class EditTopicAction implements Serializable {
 
     @Begin
     public void setTopicById(String id) {
-//        topicProducer.setTopicById(Long.parseLong(id));
         editedTopic = topicManager.getTopic(Long.parseLong(id));
     }
 
     @End
     @IsSupervisorOf
     public String editTopic() {
-//        topicManager.editTopic(topicProducer.getTopic());
         topicManager.editTopic(editedTopic);
         messages.info("Topic has been successfully edited");
         return pagesConfig.getViewId(PagesConfig.Topics.TOPICS);
@@ -53,9 +48,7 @@ public class EditTopicAction implements Serializable {
 
     @Produces
     @Named
-//    @Current
     public ThesisTopic getEditedTopic() {
         return editedTopic;
-//        return topicProducer.getTopic();
     }
 }

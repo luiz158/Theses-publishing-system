@@ -34,7 +34,6 @@ public interface PagesConfig {
         @CurrentPage
         CURRENT_PAGE,
 
-        //@LoggedIn
         @ViewPattern(PAGES_PREFIX + "index.xhtml")
         @UrlMapping(pattern = "/")
         INDEX,
@@ -71,10 +70,13 @@ public interface PagesConfig {
         SHOW,
 
         @Supervisor
+        @LoggedIn
         @ViewPattern(PAGES_PREFIX + "topics/new.xhtml")
         @UrlMapping(pattern = "/topic/new")
         NEW,
 
+        @Supervisor
+        @LoggedIn
         @ViewPattern(PAGES_PREFIX + "topics/edit.xhtml")
         @UrlMapping(pattern = "/topic/#{id}/edit")
         EDIT,

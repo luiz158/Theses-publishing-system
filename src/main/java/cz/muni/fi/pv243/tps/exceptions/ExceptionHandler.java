@@ -23,9 +23,6 @@ public class ExceptionHandler {
     FacesContext facesContext;
 
     @Inject
-    Messages messages;
-
-    @Inject
     Logger logger;
 
     @Inject
@@ -34,7 +31,6 @@ public class ExceptionHandler {
     public void handleAuthorizationException(@Handles CaughtException<AuthorizationException> e,
                                              FacesContext facesContext){
         e.handled();
-        messages.error("You don't have permission to access this page");
         redirect(PagesConfig.Pages.ACCESS_DENIED);
     }
 
@@ -46,14 +42,12 @@ public class ExceptionHandler {
     public void handleInvalidApplicationAttempt (@Handles
                                                  CaughtException<InvalidApplicationAttemptException> e){
         e.handled();
-        messages.error("You've already applied to this topic");
         redirect(PagesConfig.Pages.CURRENT_PAGE);
     }
 
     public void handleException(@Handles CaughtException<Throwable> e){
 //        logger.error(e);
 //        e.handled();
-        messages.error("Some unexpected error has occurred.");
         redirect(PagesConfig.Pages.INTERNAL_ERROR);
     }
 
