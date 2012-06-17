@@ -9,15 +9,25 @@ Developers
 
 Build
 -----
-To build this application, run:
+Firstly, you need seam-faces 3.2.0 from [here](https://github.com/VaclavDedik/faces) to have in your local maven repository. You can install it with file `install-seam-faces-3.2.0.sh`. Just run this command:
+
+`$ ./install-seam-faces-3.2.0.sh`
+
+Then you can build this application issuing the following command:
+
 `$ mvn package`
-To build this application without tests, run:
-`$ mvn package -DskipTests=true
+
+Or if you don't want to run the testsuite, run:
+
+`$ mvn package -DskipTests=true`
 
 Deployment
 ----------
 To deploy this application on JBoss AS server, run this command:
+
 `$ mvn jboss-as:deploy`
+
+You need to have JBoss AS server running at localhost:9999 (by default).
 
 Live demo
 ---------
