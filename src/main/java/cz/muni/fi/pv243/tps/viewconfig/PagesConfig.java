@@ -1,9 +1,9 @@
 package cz.muni.fi.pv243.tps.viewconfig;
 
-import cz.muni.fi.pv243.tps.security.annottions.Admin;
-import cz.muni.fi.pv243.tps.security.annottions.IsCurrentUser;
-import cz.muni.fi.pv243.tps.security.annottions.IsSupervisorOf;
-import cz.muni.fi.pv243.tps.security.annottions.Supervisor;
+import cz.muni.fi.pv243.tps.security.annotations.Admin;
+import cz.muni.fi.pv243.tps.security.annotations.IsCurrentUser;
+import cz.muni.fi.pv243.tps.security.annotations.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.security.annotations.Supervisor;
 import org.jboss.seam.faces.rewrite.FacesRedirect;
 import org.jboss.seam.faces.rewrite.UrlMapping;
 import org.jboss.seam.faces.security.AccessDeniedView;

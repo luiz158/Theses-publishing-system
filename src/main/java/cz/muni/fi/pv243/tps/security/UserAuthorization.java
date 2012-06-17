@@ -2,10 +2,10 @@ package cz.muni.fi.pv243.tps.security;
 
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
-import cz.muni.fi.pv243.tps.security.annottions.Admin;
-import cz.muni.fi.pv243.tps.security.annottions.IsCurrentUser;
-import cz.muni.fi.pv243.tps.security.annottions.IsSupervisorOf;
-import cz.muni.fi.pv243.tps.security.annottions.Supervisor;
+import cz.muni.fi.pv243.tps.security.annotations.Admin;
+import cz.muni.fi.pv243.tps.security.annotations.IsCurrentUser;
+import cz.muni.fi.pv243.tps.security.annotations.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.security.annotations.Supervisor;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.annotations.Secures;
 

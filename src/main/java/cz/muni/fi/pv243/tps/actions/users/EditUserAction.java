@@ -2,8 +2,8 @@ package cz.muni.fi.pv243.tps.actions.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
-import cz.muni.fi.pv243.tps.security.annottions.Admin;
-import cz.muni.fi.pv243.tps.security.annottions.IsCurrentUser;
+import cz.muni.fi.pv243.tps.security.annotations.Admin;
+import cz.muni.fi.pv243.tps.security.annotations.IsCurrentUser;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;
 

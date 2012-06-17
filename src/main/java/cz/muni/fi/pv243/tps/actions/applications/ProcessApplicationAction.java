@@ -5,7 +5,7 @@ import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
 import cz.muni.fi.pv243.tps.exceptions.ApplicationInProgressException;
-import cz.muni.fi.pv243.tps.security.annottions.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.security.annotations.IsSupervisorOf;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;

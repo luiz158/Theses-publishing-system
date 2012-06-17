@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.security.annottions;
+package cz.muni.fi.pv243.tps.security.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

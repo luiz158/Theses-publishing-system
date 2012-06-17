@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.security.annottions;
+package cz.muni.fi.pv243.tps.security.annotations;
 
 import org.jboss.seam.security.annotations.SecurityBindingType;
 
