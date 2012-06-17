@@ -1,8 +1,8 @@
-package cz.muni.fi.pv243.tps.action.topics;
+package cz.muni.fi.pv243.tps.actions.topics;
 
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
-import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
+import cz.muni.fi.pv243.tps.security.annottions.IsSupervisorOf;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;

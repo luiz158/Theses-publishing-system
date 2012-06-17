@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.action.converters;
+package cz.muni.fi.pv243.tps.converters;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.action.users;
+package cz.muni.fi.pv243.tps.actions.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
@@ -8,7 +8,6 @@ import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;

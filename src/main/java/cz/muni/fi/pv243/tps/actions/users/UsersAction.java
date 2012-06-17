@@ -1,8 +1,6 @@
-package cz.muni.fi.pv243.tps.action.users;
+package cz.muni.fi.pv243.tps.actions.users;
 
 import cz.muni.fi.pv243.tps.domain.User;
-import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
-import cz.muni.fi.pv243.tps.ejb.ThesisManager;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.Role;
 

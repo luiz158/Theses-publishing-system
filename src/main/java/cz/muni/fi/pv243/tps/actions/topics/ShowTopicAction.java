@@ -1,23 +1,19 @@
-package cz.muni.fi.pv243.tps.action.topics;
+package cz.muni.fi.pv243.tps.actions.topics;
 
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.domain.Thesis;
 import cz.muni.fi.pv243.tps.domain.ThesisTopic;
-import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
 import cz.muni.fi.pv243.tps.ejb.ThesisManager;
 import cz.muni.fi.pv243.tps.ejb.TopicManager;
-import cz.muni.fi.pv243.tps.ejb.UserManager;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import org.jboss.seam.security.Identity;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

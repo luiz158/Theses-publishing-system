@@ -1,21 +1,16 @@
-package cz.muni.fi.pv243.tps.action.applications;
+package cz.muni.fi.pv243.tps.actions.applications;
 
 import cz.muni.fi.pv243.tps.domain.User;
 import cz.muni.fi.pv243.tps.ejb.UserManager;
-import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
 import cz.muni.fi.pv243.tps.domain.Application;
 import cz.muni.fi.pv243.tps.ejb.ApplicationManager;
-import cz.muni.fi.pv243.tps.events.ApplicationEvent;
 import cz.muni.fi.pv243.tps.exceptions.ApplicationInProgressException;
-import cz.muni.fi.pv243.tps.security.IsSupervisorOf;
-import cz.muni.fi.pv243.tps.security.Supervisor;
+import cz.muni.fi.pv243.tps.security.annottions.IsSupervisorOf;
 import cz.muni.fi.pv243.tps.security.UserIdentity;
 import cz.muni.fi.pv243.tps.viewconfig.PagesConfig;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Identity;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.util.AnnotationLiteral;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

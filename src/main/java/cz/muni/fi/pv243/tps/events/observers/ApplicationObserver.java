@@ -1,11 +1,9 @@
-package cz.muni.fi.pv243.tps.observers;
+package cz.muni.fi.pv243.tps.events.observers;
 
 import cz.muni.fi.pv243.tps.events.qualifiers.Acceptation;
 import cz.muni.fi.pv243.tps.ejb.ThesisManager;
 import cz.muni.fi.pv243.tps.events.ApplicationEvent;
-import cz.muni.fi.pv243.tps.events.qualifiers.StatusChange;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 /**

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.tps.security;
+package cz.muni.fi.pv243.tps.security.annottions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -17,5 +17,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @SecurityBindingType
 @Target({TYPE, METHOD, PARAMETER, FIELD})
 @Retention(RUNTIME)
-public @interface Admin {
+public @interface IsCurrentUser {
 }
